@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ><!-- InstanceBegin template="/Templates/admin.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Economissimo</title>
+<script type="text/javascript"> var page_signature="{$page_signature}"; </script>
+<script type="text/javascript" src="../dev/jquery.10.0.min.js"></script>
+<script type="text/javascript" src="../dev/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="../dev/EasyCheck.min.js"></script>
+<script type="text/javascript" src="../dev/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../dev/jquery.form.js"></script>
+<script type="text/javascript" src="../dev/FormUpload.js"></script>
+<script type="text/javascript" src="../dev/app.js"></script>
+<link href="../css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css" />
+<link href="../css/EasyCheck.css" rel="stylesheet" type="text/css" />
+<link href="../css/table.css" rel="stylesheet" type="text/css" />
+<link href="../css/FormUpload.css" rel="stylesheet" type="text/css" />
+<link href="../css/boxCommerce.css" rel="stylesheet" type="text/css" />
+<link href="../css/app.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../css/liquid-slider.css" />
+    <script src="../dev/jquery.easing.1.3.js"></script>
+    <script src="../dev/jquery.liquid-slider.js"></script>
+<!-- InstanceBeginEditable name="head" -->
+<!-- script-->
+<!-- InstanceEndEditable -->
+</head>
+<body >
+<div style="text-align:center; ">
+  <div style="text-align:left; width:1080px; display:inline-block">
+    <div style="width:1080px; height:81px; float:left; background:#FFF" >
+      <div class="shell_side"></div>
+      <div style="width:1064px; float:left;" >
+        <div style="float:left; width:300px; height:73px"></div>
+        <div style="float:left;width:764px; height:25px;background-image: url(../imagesPages/shell_fichiers/grismenu_h3-2.gif); ">
+          <div class="menu" style="float:right;"> <a  href="admin.myprofile">MON&nbsp;PROFIL</a> <span></span> <a  href="admin.users">UTILISATEURS</a> <span></span> <a  href="admin.groups">GROUPES</a><a class="Menu" href="backoffice.equipiers"></a> <span></span> <a  href="admin.roles">ROLES</a> <span></span><a  href="admin.objects">Objets</a> <span></span><a  href="admin.files">Fichiers</a> <span></span><a href="0" ><img src="../imagesPages/shell_fichiers/deco_h3-3.gif" alt="Deconnexion" name="deco_survolée"  title="Deconnexion" border="0" height="24
+      " width="28" /></a></div>
+        </div>
+        <div style="float:left;width:764px; height:48px;background-image: url(../imagesPages/shell_fichiers/degradevert_h2-3.gif); "><!-- InstanceBeginEditable name="Sous menu" -->
+        <bleetz:block name="menu">
+          <div class="chemin" ><a  href="admin.roles">Roles</a> &gt; Ajouter un role </div>
+          
+        </bleetz:block>
+        <!-- InstanceEndEditable --></div>
+        <div class="shell_separator"> </div >
+      </div>
+      <div  class="shell_side"></div>
+    </div>
+    <div style="width:1080px; height:500px;  float:left; background:#FFF;">
+      <div  class="shell_side"></div>
+      <div style="float:left; width:1064px;height:500px;text-align:center;overflow:scroll;" >
+        <div style="text-align:left;  display:inline-block"><!-- InstanceBeginEditable name="contenu" -->
+   Bloc contenu en dessous
+          <bleetz:block name="content" comment="Liste des enseignes" >
+            <div style="padding:5px;text-align:left">
+              <div id="form" style="width: 500px; ">
+                <div class="w2ui-page page-0">
+                  <div class="w2ui-group">
+                    <div class="w2ui-label">Nom : </div>
+                    <div class="w2ui-field">
+                      <input name="rle_name" type="text" id="rle_name" value="{$usr_login}" size="50" maxlength="100"/>
+                    </div>
+                    <div class="w2ui-label">Commentaire : </div>
+                    <div class="w2ui-field">
+                      <textarea name="rle_comment" type="text" id="rle_comment" style="width: 328px; height: 80px; resize: none" ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="w2ui-buttons">
+                  <input type="button" value="Annuler" name="reset" />
+                  <input type="button" value="Enregistrer" name="save" />
+                </div>
+              </div>
+            </div>
+            <script>
+	$(function () {
+		$('#form').w2form({ 
+			name     : 'role-add',
+			url  : 'system.rolesW2ui',
+			header   : 'Role',
+			style1	 : 'border: 1px solid red;',
+			record: {
+				"rle_id":"{$rle_id}",
+				"rle_name":"{$rle_name}",
+				"rle_comment":"{$rle_comment}",
+					},
+			fields: [
+				//{ name: 'rle_id', type: 'int' },
+				{ name: 'rle_name', type: 'alphanumeric', required: true },
+				{ name: 'rle_comment', type: 'text' },
+			],
+			postData: {
+				page_signature: page_signature
+			},
+			actions: {
+				reset: function () {
+					this.clear();
+				},
+				save: function () {
+					var obj = this;
+					this.save({}, function (data) { 
+						if (data.status == 'error') {
+							console.log('ERROR: '+ data.message);
+							return;
+						} else if  (data.status == 'success') {
+							console.log('SUCCESS: '+ data.message);
+							window.location.href='admin.roleShow?rle_id='+data.record.rle_id;
+							return;
+						}
+						obj.clear();
+					});
+				},
+		}
+		});
+//<bleetz:debug>
+w2ui['role-add'].on('save', function(target, eventData) {
+	console.log(eventData);
+});
+//</bleetz:debug>
+});
+
+          </script>
+          </bleetz:block >
+
+
+<!-- InstanceEndEditable --></div>
+      </div>
+      <div  class="shell_side"></div>
+    </div>
+    <div style="width:1080px; height:9px;  float:left; background:#FFF;">
+      <div  class="shell_bt_c_l"></div>
+      <div class="shell_separator" > </div>
+      <div  class="shell_bt_c_r"></div>
+    </div>
+  </div>
+</div>
+</body>
+<!-- InstanceEnd --></html>

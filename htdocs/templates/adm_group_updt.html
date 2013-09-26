@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ><!-- InstanceBegin template="/Templates/admin2.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Economissimo</title>
+<script type="text/javascript"> var page_signature="{$page_signature_runtime}"; </script>
+<script type="text/javascript" src="../js/jquery.10.0.min.js"></script>
+<link href="../css/app.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../css/w2ui.min.css" /> 
+<script type="text/javascript" src="../js/w2ui.min.js"></script>
+
+<script>
+function openMessagePopup (message) {
+	$().w2popup('open', {
+		title   : 'String',
+		showClose: false,
+		body    : message,
+		style   : 'padding: 10px',
+		width   : 400,
+		height  : 200, 
+		onBeforeClose:  function () { return false; },
+	});
+}
+$(function () {
+var error_message='<bleetz:error mode="s"></bleetz:error>';
+if (error_message!="") openMessagePopup(error_message);
+});
+</script>
+<!-- InstanceBeginEditable name="head" -->
+<!-- script-->
+
+<!-- InstanceEndEditable -->
+</head>
+<body >
+<div style="text-align:center; ">
+  <div style="text-align:left; width:1080px; display:inline-block">
+    <div style="width:1080px; height:81px; float:left; background:#FFF" >
+      <div class="shell_side"></div>
+      <div style="width:1064px; float:left;" >
+        <div style="float:left; width:300px; height:73px"></div>
+        <div style="float:left;width:764px; height:25px;background-image: url(../imagesPages/shell_fichiers/grismenu_h3-2.gif); ">
+          <div class="menu" style="float:right;"> <a  href="admin.myprofile">MON&nbsp;PROFIL</a> <span></span> <a  href="admin.users">UTILISATEURS</a> <span></span> <a  href="admin.groups">GROUPES</a><a class="Menu" href="backoffice.equipiers"></a> <span></span> <a  href="admin.roles">ROLES</a> <span></span><a  href="admin.ressources">Ressources</a> <span></span><a  href="admin.objets">OBJETS</a> <span></span><a href="system.logout" >logout</a></div>
+        </div>
+        <div style="float:left;width:764px; height:48px;background-image: url(../imagesPages/shell_fichiers/degradevert_h2-3.gif); "><!-- InstanceBeginEditable name="Sous menu" -->
+        <bleetz:block name="menu">
+          <div class="chemin" ><a  href="admin.groups">Groupes</a> &gt; <a href="admin.groupShow?grp_id={$grp_id}">{$grp_name}</a> &gt; Modifier un groupe </div>
+          <div class="menu" style="float:right;"> <a class="Menu" href="admin.GroupLinkRoles?grp_id={$grp_id}">Distribuer&nbsp;les&nbsp;roles</a><span></span><a class="Menu" href="admin.GroupUpdate?grp_id={$grp_id}">Modifier</a><span></span><a class="Menu" href="admin.GroupDelete?grp_id={$grp_id}">Supprimer</a></div>
+        </bleetz:block>
+        <!-- InstanceEndEditable --></div>
+        <div class="shell_separator"> </div >
+      </div>
+      <div  class="shell_side"></div>
+    </div>
+    <div style="width:1080px; height:500px;  float:left; background:#FFF;">
+      <div  class="shell_side"></div>
+      <div style="float:left; width:1064px;height:500px;text-align:center;overflow:scroll;" >
+        <div style="text-align:left;  display:inline-block; min-height:500px;"><!-- InstanceBeginEditable name="contenu" --> Bloc contenu en dessous
+          <bleetz:block name="content" comment="Liste des enseignes" >
+            <div style="padding:5px;text-align:left">
+              <div id="form" style="width: 500px; ">
+                <div class="w2ui-page page-0">
+                  <div class="w2ui-group">
+                    <div class="w2ui-label">Nom : </div>
+                    <div class="w2ui-field">
+                      <input name="grp_name" type="text" id="grp_name" value="{$grp_name}" size="50" maxlength="100"/>
+                    </div>
+                    <div class="w2ui-label">Controlleur : </div>
+                    <div class="w2ui-field">
+                      <input name="grp_controller" type="text" id="grp_controller" value="{$grp_controller}" size="50" maxlength="100"/>
+                    </div>
+                    <div class="w2ui-label">Index de l'accueil : </div>
+                    <div class="w2ui-field">
+                      <input name="grp_index" type="text" id="grp_index" value="{$grp_index}" size="50" maxlength="100"/>
+                    </div>
+                    <div class="w2ui-label">Shell : </div>
+                    <div class="w2ui-field">
+                      <input name="grp_shell" type="text" id="grp_shell" value="{$grp_shell}" size="50" maxlength="100"/>
+                    </div>
+                    <div class="w2ui-label">Commentaire : </div>
+                    <div class="w2ui-field">
+                      <textarea name="grp_comment" type="text" id="grp_comment" style="width: 328px; height: 80px; resize: none" ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="w2ui-buttons">
+                  <input name="save" type="button" id="save" value="Enregistrer" />
+                </div>
+              </div>
+            </div>
+            <script>
+	$(function () {
+		$('#form').w2form({ 
+			name     : 'group-updt',
+			header   : 'Groupe',
+			style1	 : 'border: 1px solid red;',
+			url  : '../w2ui.php',
+			postData: {
+				"page_signature": page_signature,
+				"jsframework" 	: "w2ui",
+				"component" 	: "form",
+				"save-record"	: "system.updateGroup",
+			},
+			fields: [
+				{ name: 'grp_name', type: 'alphanumeric', required: true },
+				{ name: 'grp_controller', type: 'alphanumeric', required: true },
+				{ name: 'grp_index', type: 'alphanumeric', required: true },
+				{ name: 'grp_shell', type: 'text', required: true },
+				{ name: 'grp_comment', type: 'text',  },
+			],
+			record: {
+				'grp_id':'{$grp_id}',
+				'grp_name':'{$grp_name}',
+				'grp_controller':'{$grp_controller}',
+				'grp_index':'{$grp_index}',
+				'grp_shell':'{$grp_shell}',
+				'grp_comment':"{$grp_comment/S}",
+			},
+			actions: {
+				reset: function () {
+					this.clear();
+				},
+				save: function () {
+					var obj = this;
+					this.save({}, function (data) { 
+						if (data.status == 'error') {
+							console.log('ERROR: '+ data.message);
+							return;
+						} else if  (data.status == 'success') {
+							console.log('SUCCESS: '+ data.message);
+							//window.location.href='admin.users';
+							return;
+						}
+						obj.clear();
+					});
+				},
+		}
+		});
+		
+w2ui['group-updt'].on('save', function(target, eventData) {
+	console.log(eventData);
+});
+
+});
+</script> 
+          </bleetz:block >
+          <!-- InstanceEndEditable --></div>
+      </div>
+      <div  class="shell_side"></div>
+    </div>
+    <div style="width:1080px; height:9px;  float:left; background:#FFF;">
+      <div  class="shell_bt_c_l"></div>
+      <div class="shell_separator" > </div>
+      <div  class="shell_bt_c_r"></div>
+    </div>
+  </div>
+</div>
+</body>
+<!-- InstanceEnd --></html>

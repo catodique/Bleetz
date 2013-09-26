@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ><!-- InstanceBegin template="/Templates/admin2.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Economissimo</title>
+<script type="text/javascript"> var page_signature="{$page_signature_runtime}"; </script>
+<script type="text/javascript" src="../js/jquery.10.0.min.js"></script>
+<link href="../css/app.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../css/w2ui.min.css" /> 
+<script type="text/javascript" src="../js/w2ui.min.js"></script>
+
+<script>
+function openMessagePopup (message) {
+	$().w2popup('open', {
+		title   : 'String',
+		showClose: false,
+		body    : message,
+		style   : 'padding: 10px',
+		width   : 400,
+		height  : 200, 
+		onBeforeClose:  function () { return false; },
+	});
+}
+$(function () {
+var error_message='<bleetz:error mode="s"></bleetz:error>';
+if (error_message!="") openMessagePopup(error_message);
+});
+</script>
+<!-- InstanceBeginEditable name="head" -->
+<!-- script-->
+  <bleetz:block name="content">
+
+
+	$(function () {
+
+openPopup () ;
+	});
+</script>
+</bleetz:block>
+<!-- InstanceEndEditable -->
+</head>
+<body >
+<div style="text-align:center; ">
+  <div style="text-align:left; width:1080px; display:inline-block">
+    <div style="width:1080px; height:81px; float:left; background:#FFF" >
+      <div class="shell_side"></div>
+      <div style="width:1064px; float:left;" >
+        <div style="float:left; width:300px; height:73px"></div>
+        <div style="float:left;width:764px; height:25px;background-image: url(../imagesPages/shell_fichiers/grismenu_h3-2.gif); ">
+          <div class="menu" style="float:right;"> <a  href="admin.myprofile">MON&nbsp;PROFIL</a> <span></span> <a  href="admin.users">UTILISATEURS</a> <span></span> <a  href="admin.groups">GROUPES</a><a class="Menu" href="backoffice.equipiers"></a> <span></span> <a  href="admin.roles">ROLES</a> <span></span><a  href="admin.ressources">Ressources</a> <span></span><a  href="admin.objets">OBJETS</a> <span></span><a href="system.logout" >logout</a></div>
+        </div>
+        <div style="float:left;width:764px; height:48px;background-image: url(../imagesPages/shell_fichiers/degradevert_h2-3.gif); "><!-- InstanceBeginEditable name="Sous menu" -->
+          <bleetz:block name="menu">
+  <div class="chemin" ><a  href="admin.ressources">Ressources</a> &gt; <a href="admin.rscShow?obj_id={$obj_id}">{$obj_controller} {$obj_nature}</a> &gt; Informations</div>
+  <div class="menu" style="float:right;"> <a class="Menu" href="admin.RscInfosList?obj_id={$obj_id}">Informations</a> <span></span> <a class="Menu" href="#">Images</a><span></span> <a class="Menu" href="#">Fichiers</a></div>
+          </bleetz:block>
+        <!-- InstanceEndEditable --></div>
+        <div class="shell_separator"> </div >
+      </div>
+      <div  class="shell_side"></div>
+    </div>
+    <div style="width:1080px; height:500px;  float:left; background:#FFF;">
+      <div  class="shell_side"></div>
+      <div style="float:left; width:1064px;height:500px;text-align:center;overflow:scroll;" >
+        <div style="text-align:left;  display:inline-block; min-height:500px;"><!-- InstanceBeginEditable name="contenu" -->
+  <p><strong>Bloc deleteform en dessous </strong></p>
+
+<bleetz:block name="rscdelInfoform">
+  <div class="w2ui-page page-0">
+				<div class="w2ui-label">hook : </div>
+    <div class="w2ui-field">
+				<input name="rsc_hook" type="text" id="rsc_hook" size="35" disabled="disabled"/>
+    </div>
+				<div class="w2ui-label">code : </div>
+    <div class="w2ui-field">
+				<input name="rsc_code" type="text" id="rsc_code" size="35" disabled="disabled"/>
+    </div>
+  </div>
+  <div class="w2ui-buttons">
+    <input type="button" value="Annuler" name="reset" />
+    <input type="button" value="Supprimer" name="save"/>
+  </div>
+</bleetz:block>
+ <p><strong>Bloc addform en dessous </strong></p>
+
+<bleetz:block name="rscaddInfoform">
+  <div class="w2ui-page page-0">
+				<div class="w2ui-label">hook : </div>
+    <div class="w2ui-field">
+				<input name="rsc_hook" type="text" id="rsc_hook" size="35"/>
+    </div>
+				<div class="w2ui-label">code : </div>
+    <div class="w2ui-field">
+				<input name="rsc_code" type="text" id="rsc_code" size="35" />
+    </div>
+  </div>
+  <div class="w2ui-buttons">
+    <input type="button" value="Annuler" name="reset" />
+    <input type="button" value="Enregistrer" name="save"/>
+  </div>
+</bleetz:block>`
+ <p><strong>Bloc editform en dessous </strong></p>
+
+<bleetz:block name="rsceditInfoform">
+  <div class="w2ui-page page-0">
+				<div class="w2ui-label">hook : </div>
+    <div class="w2ui-field">
+				<input name="rsc_hook" type="text" id="rsc_hook" size="35"/>
+    </div>
+				<div class="w2ui-label">code : </div>
+    <div class="w2ui-field">
+				<input name="rsc_code" type="text" id="rsc_code" size="35" />
+    </div>
+  </div>
+  <div class="w2ui-buttons">
+    <input type="button" value="Annuler" name="reset" />
+    <input type="button" value="Modifier" name="save"/>
+  </div>
+</bleetz:block>
+  <p><strong>Bloc contenu en dessous </strong></p>
+  <bleetz:block name="content" comment="Liste des roles" >
+  <div style="padding: 5px; width: 800px; display inline-block;">
+  
+<div id="grid" style="width: 100%; height: 400px;"></div>	
+<script>
+$(function () {
+$('#grid').w2grid({ 
+	name: 'rsc-strings-list', 
+	url: '../w2ui.php',
+	limit:50,
+	postData: {
+		"obj_id"		: '{$obj_id}', 
+		"page_signature": page_signature,
+		"jsframework" 	: "w2ui",
+		"component" 	: "grid",
+		"get-records"	: "system.getStringList",
+	},
+	show: {
+		toolbar: true,
+		footer: true, 
+		toolbarAdd: true,
+		toolbarDelete: true,
+		toolbarEdit: true,
+		toolbarSave: false,
+	},
+	searches: [				
+		{ field: 'rsc_hook', caption: 'hook', type: 'text' },
+	],
+		columns: [				
+		{ field: 'rsc_id', caption: 'Id information', size: '15%' },
+		{ field: 'obj_id', caption: 'Id ressource', size: '15%'
+		},
+		{ field: 'rsc_hook', caption: 'hook', size: '20%',  },
+		{ field: 'rsc_code', caption: 'code', size: '20%',  },
+		{ field: '', caption: '', size: '20%', 
+		render: function (record, index) { return 'traduction '+record.rsc_id+'' } 
+		 },
+	],
+	onAdd: function(target, eventData) {
+		w2ui['AddRscString'].record['obj_id'] = '{$obj_id}'; 
+		openPopup('AddRscString');
+	},
+	onDelete: function(target, eventData) {
+		var idx, rcd;
+		eventData.stop=true;
+		idx=w2ui['rsc-strings-list'].getSelection();
+		rcd=w2ui['rsc-strings-list'].get(idx[0]);
+		w2ui['delRscString'].record=rcd;
+		openPopup('delRscString');
+	},
+	onEdit: function(target, eventData) {
+		var idx, rcd;
+		eventData.stop=true;
+		idx=w2ui['rsc-strings-list'].getSelection();
+		rcd=w2ui['rsc-strings-list'].get(idx[0]);
+		w2ui['updtRscString'].record=rcd;
+		openPopup('updtRscString');
+	},
+
+});
+//<bleetz:debug>
+w2ui['rsc-strings-list'].on('load', function(target, eventData) {
+	console.log(eventData);
+});
+//</bleetz:debug>
+
+});
+</script>
+<script>
+function createForm( action, formHtml) {
+	var add, del;
+	add=(action=='AddRscString');
+	del=(action=='delRscString');
+$().w2form({
+		name: action,
+		style: 'border: 0px; background-color: transparent;',
+		url  : '../w2ui.php',
+		postData: {
+			"page_signature": page_signature,
+			"jsframework" 	: "w2ui",
+			"component" 	: "form",
+			"save-record"	: "system."+action,
+		},					
+		formHTML: formHtml,
+		fields: [
+			{ name: 'rsc_hook', type: 'text', required: add },
+			{ name: 'rsc_code', type: 'int', required: add },
+		],
+			record: {
+				'obj_id':'{$obj_id}',
+			},
+		actions: {
+			reset : function () { this.clear();$().w2popup('close'); },
+			save  : function () {
+					var obj = this;
+					this.save({}, function (data) { 
+						if (data.status == 'error') {
+							console.log('ERROR: '+ data.message);
+							return;
+						} else if  (data.status == 'success') {
+							console.log('SUCCESS: '+ data.message);
+							//reload is only usefull for add and delete
+							
+							if (add || del) {
+							w2ui["rsc-strings-list"].reset();
+								w2ui["rsc-strings-list"].reload();
+							}
+							else w2ui["rsc-strings-list"].refresh();
+							//$('#grid').w2render("rsc-strings-list");
+							obj.clear();
+							$().w2popup('close');
+							//window.location.href=data.record.url;
+							return;
+						}
+					});
+				},
+			}
+	});
+//<bleetz:debug>
+	w2ui[action].on('save', function(target, eventData) {
+	console.log(eventData);
+});
+//</bleetz:debug>
+}
+createForm('AddRscString', '<bleetz:content name="rscaddInfoform" mode="s"></bleetz:content>');
+createForm('updtRscString', '<bleetz:content name="rsceditInfoform" mode="s"></bleetz:content>');
+createForm('delRscString', '<bleetz:content name="rscdelInfoform" mode="s"></bleetz:content>');
+function openPopup (name) {
+	
+	$().w2popup('open', {
+		title   : 'String',
+		showClose: false,
+		body    : '<div id="form" style="width: 100%; height: 100%;"></div>',
+		style   : 'padding: 15px 0px 0px 0px',
+		width   : 400,
+		height  : 200, 
+		onOpen  : function () {
+			var f=$('#w2ui-popup #form');
+			f.w2render(name);
+		},
+	});
+
+}
+</script>
+</div>
+</bleetz:block > 
+
+
+
+<!-- InstanceEndEditable --></div>
+      </div>
+      <div  class="shell_side"></div>
+    </div>
+    <div style="width:1080px; height:9px;  float:left; background:#FFF;">
+      <div  class="shell_bt_c_l"></div>
+      <div class="shell_separator" > </div>
+      <div  class="shell_bt_c_r"></div>
+    </div>
+  </div>
+</div>
+</body>
+<!-- InstanceEnd --></html>

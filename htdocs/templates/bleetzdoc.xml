@@ -1,0 +1,121 @@
+<bleetz:block name="content" >
+<doc:doc>
+<doc:head>
+</doc:head>
+<doc:chapter title="Controlleur">
+<doc:section title="A quoi ça sert?">
+Un controlleur est classe php qui correspond à une action de votre site internet. Ils permettent d'afficher des pages, de faires des requetes sur les bases de données, de passer les données aux vues</doc:section>
+<doc:section title="Un controlleur simple">
+<doc:para>
+Nous allons creer un controlleur qui affiche une page web "hello world". Pour cela nous allons créer un fichier front.php dans le repertoire controller. Ce fichier seras notre nouveau controlleur. Quand le navigateur html demande envoie la requete index.php/front.hello, Bleetz chargeras le fichier front.php et executeras la fonction front->hello($d) où $d est une variable array qui contient les élèment de la requête.
+Si le controlleur ou la méthode n'existe pas, Bleetz renveras afficheras une page "404 not found".
+</doc:para>
+<doc:para>
+Dans notre nouveau controlleur nous allons créer la class front et la méthode hello($d).
+<doc:source>
+&lt;?php
+class front extends Controller_core 
+{
+  public function hello()
+  {
+    echo "Hello world";
+  }
+}
+?&gt;
+</doc:source>
+Il suffit maintenant de visiter index.php/hello et votre navigateur afficheras "hello world". 
+</doc:para>
+</doc:section>
+<doc:section title="Ajouter une page page au controller">
+<doc:para>
+Supposons que vous vouliez créer un autre page pour remercier tout les utilisateurs de votre site interent.
+Il vous suffit d'ajouter à votre classe front la méthode thanks($d).
+</doc:para>
+<doc:source>
+&lt;?php
+class front extends Controller_core 
+{
+  public function hello()
+  {
+    echo "Hello world";
+  }
+  
+  public function thanks()
+  {
+    echo "Thank you for coming";
+  }
+  
+}
+?&gt;
+</doc:source>
+Maintenant quand vous visitez la page index.php/front.thanks Bleetz lanceras la méthode thanks du controlleur front et afficheras "Thank you for coming".
+</doc:section>
+</doc:chapter>
+<doc:chapter title="La gestion des utilisateurs">
+Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
+<doc:section title="Les roles">
+</doc:section>
+<doc:section title="Les groupes">
+</doc:section>
+<doc:section title="Les utilisateurs">
+</doc:section>
+</doc:chapter>
+<doc:chapter title="L'armure">
+Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
+</doc:chapter>
+<doc:chapter title="Les templates">
+Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
+</doc:chapter>
+<doc:chapter title="Services">
+<doc:section title="A quoi ça sert?">
+Les services sont des classes php qui facilitent l'accés à des fonctionnalités avancée.
+Par exemple le service DB est une classe statique qui permet de gérer les accés à la base de donnée.
+</doc:section>
+<doc:section title="Le service Configuration">
+CFG::connect()
+CFG::exec()
+CFG::getRecord()
+CFG::getRecords()
+CFG::spawn()
+CFG::
+</doc:section>
+<doc:section title="Le service Erreur">
+ER::connect()
+ER::exec()
+ER::getRecord()
+ER::getRecords()
+ER::spawn()
+ER::
+</doc:section>
+<doc:section title="Le service Utilisateur">
+RL::connect()
+GP::exec()
+US::getRecord()
+</doc:section>
+<doc:section title="Le service Database">
+DB::connect()
+DB::exec()
+DB::getRecord()
+DB::getRecords()
+DB::spawn()
+DB::
+</doc:section>
+<doc:section title="Le service Objet">
+OB::connect()
+OB::exec()
+OB::getRecord()
+OB::getRecords()
+OB::spawn()
+OB::
+</doc:section>
+<doc:section title="Le service Ressources">
+SET::connect()
+SET::exec()
+SET::getRecord()
+SET::getRecords()
+SET::spawn()
+SET::
+</doc:section>
+</doc:chapter>
+</doc:doc>
+</bleetz:block>

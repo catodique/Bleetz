@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ><!-- InstanceBegin template="/Templates/admin2.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Economissimo</title>
+<script type="text/javascript"> var page_signature="{$page_signature_runtime}"; </script>
+<script type="text/javascript" src="../js/jquery.10.0.min.js"></script>
+<link href="../css/app.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../css/w2ui.min.css" /> 
+<script type="text/javascript" src="../js/w2ui.min.js"></script>
+
+<script>
+function openMessagePopup (message) {
+	$().w2popup('open', {
+		title   : 'String',
+		showClose: false,
+		body    : message,
+		style   : 'padding: 10px',
+		width   : 400,
+		height  : 200, 
+		onBeforeClose:  function () { return false; },
+	});
+}
+$(function () {
+var error_message='<bleetz:error mode="s"></bleetz:error>';
+if (error_message!="") openMessagePopup(error_message);
+});
+</script>
+<!-- InstanceBeginEditable name="head" -->
+<!-- script-->
+
+<!-- InstanceEndEditable -->
+</head>
+<body >
+<div style="text-align:center; ">
+  <div style="text-align:left; width:1080px; display:inline-block">
+    <div style="width:1080px; height:81px; float:left; background:#FFF" >
+      <div class="shell_side"></div>
+      <div style="width:1064px; float:left;" >
+        <div style="float:left; width:300px; height:73px"></div>
+        <div style="float:left;width:764px; height:25px;background-image: url(../imagesPages/shell_fichiers/grismenu_h3-2.gif); ">
+          <div class="menu" style="float:right;"> <a  href="admin.myprofile">MON&nbsp;PROFIL</a> <span></span> <a  href="admin.users">UTILISATEURS</a> <span></span> <a  href="admin.groups">GROUPES</a><a class="Menu" href="backoffice.equipiers"></a> <span></span> <a  href="admin.roles">ROLES</a> <span></span><a  href="admin.ressources">Ressources</a> <span></span><a  href="admin.objets">OBJETS</a> <span></span><a href="system.logout" >logout</a></div>
+        </div>
+        <div style="float:left;width:764px; height:48px;background-image: url(../imagesPages/shell_fichiers/degradevert_h2-3.gif); "><!-- InstanceBeginEditable name="Sous menu" -->
+          <bleetz:block name="menu">
+            <div class="chemin" ><a  href="admin.users">USERS</a> &gt; {$usr_login}</div>
+            <div class="menu" style="float:right;"> <a class="Menu" href="admin.UserUpdate?usr_id={$usr_id}">Modifier</a><span></span><a class="Menu" href="admin.userDelete?usr_id={$usr_id}">Supprimer</a></div>
+          </bleetz:block>
+          <!-- InstanceEndEditable --></div>
+        <div class="shell_separator"> </div >
+      </div>
+      <div  class="shell_side"></div>
+    </div>
+    <div style="width:1080px; height:500px;  float:left; background:#FFF;">
+      <div  class="shell_side"></div>
+      <div style="float:left; width:1064px;height:500px;text-align:center;overflow:scroll;" >
+        <div style="text-align:left;  display:inline-block; min-height:500px;"><!-- InstanceBeginEditable name="contenu" --> Bloc contenu en dessous
+          <bleetz:block name="content" comment="Liste des enseignes" >
+            <div style="padding:5px;text-align:left">
+              <div id="form" style="width: 500px; ">
+                <div class="w2ui-page page-0">
+                  <div class="w2ui-group">
+                    <div class="w2ui-label">Login : </div>
+                    <div class="w2ui-field">
+                      <input name="usr_login" type="text" id="usr_login" value="{$usr_login}" size="50" maxlength="100" readonly="readonly"/>
+                    </div>
+                    <div class="w2ui-label">Email : </div>
+                    <div class="w2ui-field">
+                      <input name="usr_email" type="text" id="usr_email" value="{$usr_email}" size="50" maxlength="100" readonly="readonly"/>
+                    </div>
+                    <div class="w2ui-label">Group : </div>
+                    <div class="w2ui-field">
+                      <select name="grp_id" id="grp_id" value="{$grp_id}" >
+                      </select>
+                    </div>
+                  </div>
+                </div>               
+              </div>
+            </div>
+            <script>
+	$(function () {
+		$('#form').w2form({ 
+			name     : 'user-show',
+			record: {
+				"usr_id":"{$usr_id}",
+				"grp_id":"{$grp_id}",
+				"usr_index_url":"{$usr_index_url}",
+				"usr_login":"{$usr_login}",
+				"usr_email":"{$usr_email}",
+				"usr_status":"{$usr_status}",
+				"usr_dt_entree":"{$usr_dt_entree}",
+				"usr_type":"{$usr_type}"
+				},
+			header   : 'Utilisateur',
+			style1	 : 'border: 1px solid red;',
+			fields: [
+				{ name: 'usr_login', type: 'alphanumeric', required: true },
+				{ name: 'usr_email', type: 'email', required: true },
+				{ name: 'grp_id', type: 'list', required: true, 
+						options: { url : 'system.droplistGroups', showNone: true } },
+				{ name: 'usr_password', type: 'password', required: true },
+			],
+			postData: {
+				page_signature: page_signature
+			},
+
+		});
+//<bleetz:debug>		
+w2ui['user-show'].on('save', function(target, eventData) {
+	console.log(eventData);
+});
+//</bleetz:debug>	
+});
+
+</script> 
+          </bleetz:block >
+          <!-- InstanceEndEditable --></div>
+      </div>
+      <div  class="shell_side"></div>
+    </div>
+    <div style="width:1080px; height:9px;  float:left; background:#FFF;">
+      <div  class="shell_bt_c_l"></div>
+      <div class="shell_separator" > </div>
+      <div  class="shell_bt_c_r"></div>
+    </div>
+  </div>
+</div>
+</body>
+<!-- InstanceEnd --></html>

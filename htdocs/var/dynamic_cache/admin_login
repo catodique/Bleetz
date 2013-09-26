@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Economissimo login</title>
+<script type="text/javascript"> var page_signature="<?php if (isset($this->page_signature)) echo $this->page_signature; else /*error*/; ?>"; </script>
+<script type="text/javascript" src="../js/jquery.10.0.min.js"></script>
+<link href="../css/app.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../css/w2ui.min.css" /> 
+<script type="text/javascript" src="../js/w2ui.min.js"></script>
+</head>
+<body>
+
+  <script>
+function openPopup () {
+	$().w2form({
+		name: 'user-login',
+		style: 'border: 0px; background-color: transparent;',
+		url  : '../w2ui.php',
+		postData: {
+			"page_signature": page_signature,
+			"jsframework" 	: "w2ui",
+			"component" 	: "form",
+			"save-record"	: "system.login",
+		},			
+		formHTML: 
+			'  <div class="w2ui-page page-0">				<div class="w2ui-label">Login : </div>				<div class="w2ui-field">				<input name="login" type="text" size="35"/>				</div>				<div class="w2ui-label">Password : </div>    <div class="w2ui-field">				<input name="password" type="password" size="35"/>    </div>  </div>  <div class="w2ui-buttons">    <input type="button" value="Login" name="save">  </div>',
+		fields: [
+			{ name: 'login', type: 'text', required: true },
+			{ name: 'password', type: 'password', required: true },
+		],
+		actions: {
+			reset : function () { this.clear(); },
+			save  : function () {
+					var obj = this;
+					this.save({}, function (data) { 
+						if (data.status == 'error') {
+							console.log('ERROR: '+ data.message);
+							return;
+						} else if  (data.status == 'success') {
+							console.log('SUCCESS: '+ data.message);
+							window.location.href=data.record.url;
+							return;
+						}
+						obj.clear();
+					});
+				},
+			}
+	});
+	$().w2popup('open', {
+		title   : 'Login',
+		showClose: false,
+		//keyboard: true,
+		body    : '<div id="form" style="width: 100%; height: 100%;"></div>',
+		style   : 'padding: 15px 0px 0px 0px',
+		width   : 400,
+		height  : 200, 
+		onOpen  : function (event) {
+			event.onComplete = function () {
+				$('#w2ui-popup #form').w2render('user-login');
+			}
+		},
+		
+		onKeyboard	: function (event) {
+			//console.log(event.originalEvent.keyCode, event );
+			if (event.originalEvent.keyCode==13)
+				w2ui['user-login'].submit();
+		},	
+		onClose	: function (event) {
+			event.preventDefault();
+		},
+	});
+//<?php if (DODEBUG) { ?>
+
+	w2ui['user-login'].on('save', function(target, eventData) {
+	console.log(eventData);
+	});
+//<?php } ?>
+
+}
+
+	$(function () {
+	openPopup () ;
+	});
+</script>
+
+</body>
+</html>

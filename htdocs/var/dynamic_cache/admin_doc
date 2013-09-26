@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf8" />
+	
+	<title>Bleetz</title>
+	
+	<link rel="shortcut icon" href="" />
+	
+</head>
+<body>
+
+
+
+
+
+
+<h2>Controlleur</h2>
+<h3>A quoi ça sert?</h3>
+Un controlleur est classe php qui correspond à une action de votre site internet. Ils permettent d'afficher des pages, de faires des requetes sur les bases de données, de passer les données aux vues
+<h3>Un controlleur simple</h3>
+<p>
+Nous allons creer un controlleur qui affiche une page web "hello world". Pour cela nous allons créer un fichier front.php dans le repertoire controller. Ce fichier seras notre nouveau controlleur. Quand le navigateur html demande envoie la requete index.php/front.hello, Bleetz chargeras le fichier front.php et executeras la fonction front->hello($d) où $d est une variable array qui contient les élèment de la requête.
+Si le controlleur ou la méthode n'existe pas, Bleetz renveras afficheras une page "404 not found".
+</p>
+<p>
+Dans notre nouveau controlleur nous allons créer la class front et la méthode hello($d).
+<pre class="php">
+&lt;?php
+class front extends Controller_core 
+{
+  public function hello()
+  {
+    echo "Hello world";
+  }
+}
+?&gt;
+</pre>
+Il suffit maintenant de visiter index.php/hello et votre navigateur afficheras "hello world". 
+</p>
+
+<h3>Ajouter une page page au controller</h3>
+<p>
+Supposons que vous vouliez créer un autre page pour remercier tout les utilisateurs de votre site interent.
+Il vous suffit d'ajouter à votre classe front la méthode thanks($d).
+</p>
+<pre class="php">
+&lt;?php
+class front extends Controller_core 
+{
+  public function hello()
+  {
+    echo "Hello world";
+  }
+  
+  public function thanks()
+  {
+    echo "Thank you for coming";
+  }
+  
+}
+?&gt;
+</pre>
+Maintenant quand vous visitez la page index.php/front.thanks Bleetz lanceras la méthode thanks du controlleur front et afficheras "Thank you for coming".
+
+
+<h2>La gestion des utilisateurs</h2>
+Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
+<h3>Les roles</h3>
+
+<h3>Les groupes</h3>
+
+<h3>Les utilisateurs</h3>
+
+
+<h2>L'armure</h2>
+Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
+
+<h2>Les templates</h2>
+Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
+
+<h2>Services</h2>
+<h3>A quoi ça sert?</h3>
+Les services sont des classes php qui facilitent l'accés à des fonctionnalités avancée.
+Par exemple le service DB est une classe statique qui permet de gérer les accés à la base de donnée.
+
+<h3>Le service Configuration</h3>
+CFG::connect()
+CFG::exec()
+CFG::getRecord()
+CFG::getRecords()
+CFG::spawn()
+CFG::
+
+<h3>Le service Erreur</h3>
+ER::connect()
+ER::exec()
+ER::getRecord()
+ER::getRecords()
+ER::spawn()
+ER::
+
+<h3>Le service Utilisateur</h3>
+RL::connect()
+GP::exec()
+US::getRecord()
+
+<h3>Le service Database</h3>
+DB::connect()
+DB::exec()
+DB::getRecord()
+DB::getRecords()
+DB::spawn()
+DB::
+
+<h3>Le service Objet</h3>
+OB::connect()
+OB::exec()
+OB::getRecord()
+OB::getRecords()
+OB::spawn()
+OB::
+
+<h3>Le service Ressources</h3>
+SET::connect()
+SET::exec()
+SET::getRecord()
+SET::getRecords()
+SET::spawn()
+SET::
+
+
+
+
+
+</body>
+</html>

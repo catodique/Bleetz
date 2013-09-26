@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Economissimo</title>
+<script type="text/javascript"> var page_signature="{$page_signature_runtime}"; </script>
+<script type="text/javascript" src="../js/jquery.10.0.min.js"></script>
+<link href="../css/app.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../css/w2ui.min.css" /> 
+<script type="text/javascript" src="../js/w2ui.min.js"></script>
+
+<script>
+function openMessagePopup (message) {
+	$().w2popup('open', {
+		title   : 'String',
+		showClose: false,
+		body    : message,
+		style   : 'padding: 10px',
+		width   : 400,
+		height  : 200, 
+		onBeforeClose:  function () { return false; },
+	});
+}
+$(function () {
+var error_message='<bleetz:error mode="s"></bleetz:error>';
+if (error_message!="") openMessagePopup(error_message);
+});
+</script>
+<!-- TemplateBeginEditable name="head" -->
+<bleetz:content name="script">
+<!-- script-->
+</bleetz:content>
+<!-- TemplateEndEditable -->
+</head>
+<body >
+<div style="text-align:center; ">
+  <div style="text-align:left; width:1080px; display:inline-block">
+    <div style="width:1080px; height:81px; float:left; background:#FFF" >
+      <div class="shell_side"></div>
+      <div style="width:1064px; float:left;" >
+        <div style="float:left; width:300px; height:73px"></div>
+        <div style="float:left;width:764px; height:25px;background-image: url(../imagesPages/shell_fichiers/grismenu_h3-2.gif); ">
+          <div class="menu" style="float:right;"> <a  href="admin.myprofile">MON&nbsp;PROFIL</a> <span></span> <a  href="admin.users">UTILISATEURS</a> <span></span> <a  href="admin.groups">GROUPES</a><a class="Menu" href="backoffice.equipiers"></a> <span></span> <a  href="admin.roles">ROLES</a> <span></span><a  href="admin.ressources">Ressources</a> <span></span><a  href="admin.objets">OBJETS</a> <span></span><a href="system.logout" >logout</a></div>
+        </div>
+        <div style="float:left;width:764px; height:48px;background-image: url(../imagesPages/shell_fichiers/degradevert_h2-3.gif); "><!-- TemplateBeginEditable name="Sous menu" -->
+          <bleetz:content name="menu"> ici le menu </bleetz:content>
+        <!-- TemplateEndEditable --></div>
+        <div class="shell_separator"> </div >
+      </div>
+      <div  class="shell_side"></div>
+    </div>
+    <div style="width:1080px; height:500px;  float:left; background:#FFF;">
+      <div  class="shell_side"></div>
+      <div style="float:left; width:1064px;height:500px;text-align:center;overflow:scroll;" >
+        <div style="text-align:left;  display:inline-block; min-height:500px;"><!-- TemplateBeginEditable name="contenu" -->
+          <bleetz:content name="content"> ici le contenu </bleetz:content>
+          <!-- TemplateEndEditable --></div>
+      </div>
+      <div  class="shell_side"></div>
+    </div>
+    <div style="width:1080px; height:9px;  float:left; background:#FFF;">
+      <div  class="shell_bt_c_l"></div>
+      <div class="shell_separator" > </div>
+      <div  class="shell_bt_c_r"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
