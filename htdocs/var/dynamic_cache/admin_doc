@@ -15,7 +15,51 @@
 
 
 
-<h2>Controlleur</h2>
+<h2>Bien demarrer avec Bleetz</h2>
+<h3>Installation</h3>
+<p>
+Pour bien installer Bleetz vous devez d'abord recuperer les fichiers sur github.
+</p>
+<p>
+Le repertoire htdocs contient tous les fichiers qui se retrouvent dans votre repertoir web.
+</p>
+<p>
+Le repertoire system contient tous les fichiers de la librairie Bleetz et doivent etre placés soit dans votre espace web, soit sur votre serveur dans un autre repertoire, dans le repertoire au-dessus de votre repertoire web ou ailleurs.
+</p>
+<p>
+Le repertoire datamodel contient les fichiers sql qui permettent d'implementer l'autentification par utilisateurs (voir le service utisisateurs) et les services de gestion des objets et des ressources de la base de donné (voir le service objets et le service ressources). Ils ne servent que si vous souhaitez implementer une autentification ou si vous souhaitez utiliser les services avancée pour la base de donnée.
+</p>
+
+<h3>Un exemple de structure de repertoires</h3>
+<pre class="php">
+root-|-system-|-cards
+              |-core
+              |-services
+     |-htdocs-|-index.php
+              |-controller
+              |-templates
+              |-var-|-config.php
+                    |-dynamic_cache
+                    |-static_cache
+                    |-security
+</pre>
+
+<h3>Un autre exemple de structure de repertoires</h3>
+<pre class="php">
+root-|-htdocs-|-index.php
+              |-system-|-cards
+                       |-core
+                       |-services
+              |-controller
+              |-templates
+              |-var-|-config.php
+                    |-dynamic_cache
+                    |-static_cache
+                    |-security
+</pre>
+
+
+<h2>Les controlleurs</h2>
 <h3>A quoi ça sert?</h3>
 Un controlleur est classe php qui correspond à une action de votre site internet. Ils permettent d'afficher des pages, de faires des requetes sur les bases de données, de passer les données aux vues
 <h3>Un controlleur simple</h3>
@@ -64,6 +108,39 @@ class front extends Controller_core
 Maintenant quand vous visitez la page index.php/front.thanks Bleetz lanceras la méthode thanks du controlleur front et afficheras "Thank you for coming".
 
 
+<h2>Les templates et les vues</h2>
+<h3>A quoi ça sert?</h3>
+<p>Les templates permettent de séparer les données et l'affichage des pages. Les vues permettent de traiter les templates et de les transfomer en code php et html. 
+</p>
+<p>
+Les templates sont basé sur le codage xml. On définit une classe 
+</p>
+
+<h3>Un template simple</h3>
+<pre class="php">
+&lt;?php
+class front extends Controller_core 
+{
+  public function hello()
+  {
+    echo "Hello world";
+  }
+  
+  public function thanks()
+  {
+    echo "Thank you for coming";
+  }
+  
+}
+?&gt;
+</pre>
+<p>
+Nous allons creer un controlleur qui affiche une page web "hello world". Pour cela nous allons créer un fichier front.php dans le repertoire controller. Ce fichier seras notre nouveau controlleur. Quand le navigateur html demande envoie la requete index.php/front.hello, Bleetz chargeras le fichier front.php et executeras la fonction front->hello($d) où $d est une variable array qui contient les élèment de la requête.
+Si le controlleur ou la méthode n'existe pas, Bleetz renveras afficheras une page "404 not found".
+</p>
+
+
+
 <h2>La gestion des utilisateurs</h2>
 Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
 <h3>Les roles</h3>
@@ -74,9 +151,6 @@ Un controlleur est une classe dont les méthodes correspondent à des actions du
 
 
 <h2>L'armure</h2>
-Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
-
-<h2>Les templates</h2>
 Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
 
 <h2>Services</h2>

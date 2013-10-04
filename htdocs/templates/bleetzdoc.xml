@@ -2,7 +2,51 @@
 <doc:doc>
 <doc:head>
 </doc:head>
-<doc:chapter title="Controlleur">
+<doc:chapter title="Bien demarrer avec Bleetz">
+<doc:section title="Installation">
+<doc:para>
+Pour bien installer Bleetz vous devez d'abord recuperer les fichiers sur github.
+</doc:para>
+<doc:para>
+Le repertoire htdocs contient tous les fichiers qui se retrouvent dans votre repertoir web.
+</doc:para>
+<doc:para>
+Le repertoire system contient tous les fichiers de la librairie Bleetz et doivent etre placés soit dans votre espace web, soit sur votre serveur dans un autre repertoire, dans le repertoire au-dessus de votre repertoire web ou ailleurs.
+</doc:para>
+<doc:para>
+Le repertoire datamodel contient les fichiers sql qui permettent d'implementer l'autentification par utilisateurs (voir le service utisisateurs) et les services de gestion des objets et des ressources de la base de donné (voir le service objets et le service ressources). Ils ne servent que si vous souhaitez implementer une autentification ou si vous souhaitez utiliser les services avancée pour la base de donnée.
+</doc:para>
+</doc:section>
+<doc:section title="Un exemple de structure de repertoires">
+<doc:source>
+root-|-system-|-cards
+              |-core
+              |-services
+     |-htdocs-|-index.php
+              |-controller
+              |-templates
+              |-var-|-config.php
+                    |-dynamic_cache
+                    |-static_cache
+                    |-security
+</doc:source>
+</doc:section>
+<doc:section title="Un autre exemple de structure de repertoires">
+<doc:source>
+root-|-htdocs-|-index.php
+              |-system-|-cards
+                       |-core
+                       |-services
+              |-controller
+              |-templates
+              |-var-|-config.php
+                    |-dynamic_cache
+                    |-static_cache
+                    |-security
+</doc:source>
+</doc:section>
+</doc:chapter>
+<doc:chapter title="Les controlleurs">
 <doc:section title="A quoi ça sert?">
 Un controlleur est classe php qui correspond à une action de votre site internet. Ils permettent d'afficher des pages, de faires des requetes sur les bases de données, de passer les données aux vues</doc:section>
 <doc:section title="Un controlleur simple">
@@ -51,6 +95,39 @@ class front extends Controller_core
 Maintenant quand vous visitez la page index.php/front.thanks Bleetz lanceras la méthode thanks du controlleur front et afficheras "Thank you for coming".
 </doc:section>
 </doc:chapter>
+<doc:chapter title="Les templates et les vues">
+<doc:section title="A quoi ça sert?">
+<doc:para>Les templates permettent de séparer les données et l'affichage des pages. Les vues permettent de traiter les templates et de les transformer en code php et html. 
+</doc:para>
+<doc:para>
+Les templates sont basé sur le codage xml. On définit une classe 
+</doc:para>
+</doc:section>
+<doc:section title="Un template simple">
+<doc:source>
+&lt;?php
+class front extends Controller_core 
+{
+  public function hello()
+  {
+    echo "Hello world";
+  }
+  
+  public function thanks()
+  {
+    echo "Thank you for coming";
+  }
+  
+}
+?&gt;
+</doc:source>
+<doc:para>
+Nous allons creer un controlleur qui affiche une page web "hello world". Pour cela nous allons créer un fichier front.php dans le repertoire controller. Ce fichier seras notre nouveau controlleur. Quand le navigateur html demande envoie la requete index.php/front.hello, Bleetz chargeras le fichier front.php et executeras la fonction front->hello($d) où $d est une variable array qui contient les élèment de la requête.
+Si le controlleur ou la méthode n'existe pas, Bleetz renveras afficheras une page "404 not found".
+</doc:para>
+</doc:section>
+</doc:chapter>
+
 <doc:chapter title="La gestion des utilisateurs">
 Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
 <doc:section title="Les roles">
@@ -61,9 +138,6 @@ Un controlleur est une classe dont les méthodes correspondent à des actions du
 </doc:section>
 </doc:chapter>
 <doc:chapter title="L'armure">
-Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
-</doc:chapter>
-<doc:chapter title="Les templates">
 Un controlleur est une classe dont les méthodes correspondent à des actions du serveur.
 </doc:chapter>
 <doc:chapter title="Services">
