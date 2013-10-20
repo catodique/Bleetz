@@ -37,6 +37,7 @@ Class TAG {
 	 * @param unknown $parser_i
 	 */
 	static function checkNamespace($namespace) {
+		if (!empty(self::$aliases[$namespace])) $namespace=self::$aliases[$namespace];
 		//ajouter des methodes de gestion des cartes (CARD:: ou CD:: ou CA::
 		if (!file_exists(CRDPATH.$namespace.".php")) { //404 not found
 			// a modifier avec string, infos...
@@ -47,6 +48,7 @@ Class TAG {
 			exit;
 			return false;
 		} else {
+			//echo $namespace.".php";
 			include_once (CRDPATH.$namespace.".php");
 		}
 		return true;
@@ -59,7 +61,7 @@ Class TAG {
 	 * @return unknown
 	 */
 	static function open($namespace, $tag_name, $attrs) {
-		if (!empty(self::$aliases[$namespace])) $namespace=self::$aliases[$namespace];
+		//if (!empty(self::$aliases[$namespace])) $namespace=self::$aliases[$namespace];
 /*
 		//ajouter des methodes de gestion des cartes (CARD:: ou CD:: ou CA::					
 		if (!file_exists(CRDPATH.$namespace.".php")) { //404 not found
@@ -99,7 +101,7 @@ Class TAG {
 	 * @return unknown
 	 */
 	static function close($namespace, $tag_name) {
-		if (!empty(self::$aliases[$namespace])) $namespace=self::$aliases[$namespace];
+		//if (!empty(self::$aliases[$namespace])) $namespace=self::$aliases[$namespace];
 		
 		$method=$tag_name."_close";
 		//ER::collect("e");
@@ -119,8 +121,8 @@ Class TAG {
 		return $compclosetag;
 	}
 	
-	static function alias($alias, $namespace) {
-		self::$aliases[$alias]=$namespace;
+	static function alias($alias, $tagspace) {
+		self::$aliases[$alias]=$tagspace;
 	}
 }
 /**

@@ -36,6 +36,10 @@ Class View_core {
 	 * Affiche le template
 	 */
 	function render() {
+		///BIG HACK MAMA
+		//for variable controller environment
+		$this->set_variable("controlleur", Bleetz::$context->controller);
+		
 		eval ("?>".$this->toeval);
 	}
 
@@ -45,6 +49,9 @@ Class View_core {
 	 * @return string
 	 */
 	function renderStr() {
+		///BIG HACK MAMA
+		$this->set_variable("controlleur", Bleetz::$context->controller);
+		
 		ob_start();
 				
 		eval ("?>".$this->toeval);
@@ -162,6 +169,8 @@ Class View_core {
 	function set($varname, $value, $scope="") {
 		if (!empty($scope)) $varname=$scope."__".$varname;
 		$this->$varname=$value;
+		// a remplacer
+		//VAR::set...
 	}
 	/**
 	 *  Charge une variables dans la vue... synonime de set
