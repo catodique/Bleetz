@@ -173,63 +173,28 @@ class User {
                                   ## from db using auth_refreshlogin()
                                   ## method. Set to 0 to disable refresh
 
-	/**
-	 * login.
-	 *
-	 * log a user with login and password
-	 *
-	 * @return  void
-	 *
-	function login($login, $password) {
-		//recuperer les authentifications
-		//$user = new User_core;
-		//$this->user=$user;
-		$ret=$this->user->login($login, $password);
-		if ($ret) {
-			session_start();
-			//compile _url($redirect)
-			//try authorize
-			$_SESSION["token_id"]=$this->user->auth["usr_id"];
-			$_SESSION["exp_token"]=$this->user->auth["exp"];
-			session_regenerate_id();
-			session_write_close();
-		}
-		return $ret;
-	}
-  */
   	/**
-	 * logout. mettre dasn user
+	 * logout. mettre dans user
 	 *
-	 * log a user with login and password
+	 * logout a user 
 	 *
 	 * @return  void
 	 */
 	function logout() {
+		$this->guest_login();
+		SE::set_variable("token_id", $this->auth["usr_id"]);
+		SE::set_variable("exp_token", $this->auth["exp"]);
+		/*
 		session_start();
 		session_destroy();
 		session_start();
-		$this->guest_login();
 		$_SESSION["token_id"]=$this->auth["usr_id"];
 		$_SESSION["exp_token"]=$this->auth["exp"];
 		session_regenerate_id();
 		session_write_close();
+		*/
 	}
-/**************************************************************************
-   * name: logout()
-   * created by:
-   * description:
-   * parameters:
-   * returns:
-   **************************************************************************
-  function logout() {
-  //echo "logout<br>";
-    //session_unset();
-    $this->in=false;
-    $this->guest_login();
-    //$GLOBALS["BLEETZ_DEBUG"]=1;
-    return True;
-  }
-*/
+
   /**
    * already logged, just come back
    * @author
@@ -262,6 +227,7 @@ class User {
 				$this->auth["grp_name"]    	= $db->Record["grp_name"];
 				$this->auth["grp_shell"]    = $db->Record["grp_shell"];
 				$this->auth["grp_controller"]    = $db->Record["grp_controller"];
+				$this->auth["grp_ns"]    = $db->Record["grp_ns"];
 				$this->auth["grp_index"]    = $db->Record["grp_index"];
 				$this->auth["usr_password"]    = $db->Record["usr_password"];
 				$this->auth["exp"]			= time() + (60 * $this->lifetime);
@@ -295,11 +261,11 @@ class User {
     return True;
   }
 
-   /**
-   * default guest access
-   * @author
-   *
-   * @returns true if ok
+	/**
+	 * login.
+	 * log a user with login and password
+	 *
+     * @returns true if ok
    */
   function login($login, $password) {
 		$db=DB::connect();
@@ -352,16 +318,29 @@ class US {
 	
 
 	/**
-	 * Créer une instance d'objet après l'avoir ajoutée a la base de donnée
+	 * Recupere l'id d'un utilisateur
 	 *
 	 * @return  object instance
 	 */
 	static function getId() {
 		return self::$user->auth["usr_id"];
 	}
+	
+	/**
+	 * Recupere le namepace du groupe de l'utilisateur
+	 * pour l'injecter dans les vues et selectionner un template en fonction de l'utilisateur
+	 *
+	 * @return  object instance
+	 */
+	static function getNamespace() {
+		return self::$user->auth["grp_ns"];
+	}
+	
 	/**
 	 * Créer une instance d'objet après l'avoir ajoutée a la base de donnée
-	 *
+	 * encore non utilisé
+	 * à voir peut etre faut il s'en débarrasser tout court
+	 * 
 	 * @return  object instance
 	 */
 	static function spawn() {
@@ -462,9 +441,13 @@ class US {
 	 * @return user instance
 	 */
 	static function checkpoint() {
+		$id_token=SE::get("token_id");
+		$flash_token=SE::get("exp_token");
+		/*
 		session_start();
 		$id_token=isset($_SESSION["token_id"])?$_SESSION["token_id"]:false;
 		$flash_token=isset($_SESSION["exp_token"])?$_SESSION["exp_token"]:false;
+		*/
 		//echo $flash_token."<br>";
 		//echo $id_token.",";
 		//echo $flash_token.",";
@@ -479,9 +462,13 @@ class US {
 			//echo "guest";
 			$user->guest_login();
 		} else if ($flash_token<time()) {
+			SE::destroy();
+			/*
 			session_destroy();
 			session_start();
+			*/
 			$user->guest_login();
+			
 		} else {
 			//echo(po);
 			$user->authenticate($id_token);
@@ -489,11 +476,14 @@ class US {
 	
 		self::$user=$user;
 	
+		SE::set_variable("token_id", US::$user->auth["usr_id"]);
+		SE::set_variable("exp_token", US::$user->auth["exp"]);
+		/*
 		$_SESSION["token_id"]=US::$user->auth["usr_id"];
 		$_SESSION["exp_token"]=US::$user->auth["exp"];
 		session_regenerate_id();
 		session_write_close();
-		
+		*/
 		//should it return user????
 		return $user;
 	}
@@ -510,13 +500,18 @@ class US {
 		}
 		$ret=self::$user->login($login, $password);
 		if ($ret) {
-			session_start();
+			//session_start();
 			//compile _url($redirect)
 			//try authorize
+			//utiliser set_variables...
+			SE::set_variable("token_id", US::$user->auth["usr_id"]);
+			SE::set_variable("exp_token", US::$user->auth["exp"]);
+			/*
 			$_SESSION["token_id"]=self::$user->auth["usr_id"];
 			$_SESSION["exp_token"]=self::$user->auth["exp"];
 			session_regenerate_id();
 			session_write_close();
+			*/
 		}
 		return $ret;
 	}

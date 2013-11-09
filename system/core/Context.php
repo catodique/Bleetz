@@ -224,14 +224,22 @@ Class Context_core {
 			if (sizeof($actions)==0) { // page par defaut du site
 				//a remplacer par l'index utilisateur
 				//BASE_URL
-				$url=BASE_URL.MAIN.".".INDEX;
+				$base_url=CFG::get("BASE_URL","Context");
+				$url=$base_url.MAIN.".".INDEX;
+				//echo $url;
 				URL::redirect($url);
+				exit;
+				
 			}
 			$this->actions=$actions;
 		} else { //page par defaut du site
 			//a remplacer par l'index utilisateur
-			$url=BASE_URL.MAIN.".".INDEX;
+			$base_url=CFG::get("BASE_URL","Context");
+			$url=$base_url.MAIN.".".INDEX;
+			//echo $url;
 			URL::redirect($url);
+			exit;
+				
 		}
 
 		if ($this->validate()) {
@@ -250,6 +258,7 @@ Class Context_core {
 				// exemple : vous n'avez pas accès à la page demandée
 				// connectez vous....
 				URL::redirect("admin.login");
+				exit;
 			};
 
 			}

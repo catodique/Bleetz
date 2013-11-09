@@ -181,7 +181,7 @@ class bleetz_compiler {
 		//il faut vérifier que mon array est bien une variable...
 		if (isset($attrs["ARRAY"])) {
 			$array=$attrs["ARRAY"];
-			if ($array[0]=="$") $tocompile=true;
+			if (substr_compare($array, 'VR::$vr', 0, 7)==0) $tocompile=true;
 		}
 		$index=@$attrs["INDEX"];
    		$toindex=!empty($index);

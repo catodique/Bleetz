@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Bleetz framework
  *
@@ -10,40 +10,55 @@
  * @Copyright       2000-2013
  * @Project Page    none
  * @docs            ...
- * 
+ *
  * All rights reserved.
- * 
+ *
+ * lots of thingsd to do here
+ * -transfert some bleetz func here
  */
 
 class CFG extends Config
 {
-	static $conf;
-		
+	static $conf=null;
+
 	static function Load($service) {
+		if (self::$conf === null) self::$conf=new Config;
+		//var_dump(self::$conf);
 		if (isset(self::$$service) && is_array(self::$$service))
 			foreach(self::$$service as $k => $val) {
 				define($k, $val);
 			}
 	}
-	
+
 	static function LoadDirectories() {
 		if (is_array(self::$directories))
 			foreach(self::$directories as $k => $val) {
 				define($k, preg_replace('/^\w:/','',str_replace('\\','/',realpath(DOCROOT.$val))).'/');
 			}
 	}
-	
-	static function Get($name, $service="") {
-		return constant ( $service . $name );
+
+	static function get($name, $service="") {
+		//var_dump(self::$conf);
+		if (!isset(self::$conf->$service)) return null;
+		$serv=self::$conf->$service;
+		return $serv[$name];
+		//return constant ( $service . $name );
 	}
-	
-	static function Set($name, $value, $service="") {
-		if (!empty($cname)) $cname=$service."_".$name;
-		else $cname=$name;
-		return define ( $cname, $value);
+
+	static function set($name, $value, $service="") {
+		if (self::$conf === null) self::$conf=new self;
+		if (!isset(self::$conf->$service)) self::$conf->$service=array();
+		//var_dump(self::$conf);
+		//echo $name;
+		//self::$conf->$service->$name=$value;
+		$serv=self::$conf->$service;
+		$serv[$name]=$value;
+		self::$conf->$service=$serv;
+		//var_dump(self::$conf);
+		return true;
 	}
-	
-	
+
+
 }
 
 

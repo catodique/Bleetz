@@ -131,7 +131,7 @@ class Ressource {
 		$q.= " LEFT OUTER JOIN app_file_binary as b ON b.rsc_id=f.rsc_id  ";
 		$q .= " WHERE obj_id=".$obj_id;
 		$q .= " AND rsc_hook='".addslashes($hook)."'";
-		
+		//echo $q;
 		$db->query($q);
 	
 		if ($db->next_record()) {
@@ -194,7 +194,7 @@ class Ressource {
 
 		$db=DB::connect();
 	
-		//dtruire les textes
+		//dï¿½truire les textes
 		$q  = "DELETE FROM app_text ";
 		$q .= " WHERE ";
 		$q .= " rsc_id=".$this->rsc_id.";";
@@ -212,7 +212,7 @@ class Ressource {
 	}
 	
 	/**
-	 * Crer une nouvelle ressource et l'ajoute ˆ  la base de donne
+	 * Crï¿½er une nouvelle ressource et l'ajoute ï¿½  la base de donnï¿½e
 	 * 
 	 * @param  $salt_str : type de l'objet
 	 * @param  $hook : constructeur de l'objet
@@ -290,8 +290,8 @@ class Ressource {
    }
    
    /**
-    * Enregistre les donnes $text dans la ressource
-    * dans la langue specifie
+    * Enregistre les donnï¿½es $text dans la ressource
+    * dans la langue specifiï¿½e
     *
     * @param  $lang : langue de destination
     * @param  $text : texte dans la langue
@@ -390,8 +390,8 @@ class Ressource {
    }
      
    /**
-    * Enregistre les donnes $text dans la ressource
-    * dans la langue specifie
+    * Enregistre les donnï¿½es $text dans la ressource
+    * dans la langue specifiï¿½e
     *
     * @param  $lang : langue de destination
     * @param  $text : texte dans la langue
@@ -408,8 +408,8 @@ class Ressource {
    }
    
    /**
-	 * Enregistre les donnes $text dans la ressource
-	 * dans la langue specifie
+	 * Enregistre les donnï¿½es $text dans la ressource
+	 * dans la langue specifiï¿½e
 	 *
 	 * @param  $lang : langue de destination
 	 * @param  $text : texte dans la langue
@@ -425,7 +425,7 @@ class Ressource {
 	}
 	
 	  /**
-	   * Rattache le chemin fichier ˆ un objet
+	   * Rattache le chemin fichier ï¿½ un objet
 	   *
 	   * @return  static db connection
 	   */
@@ -477,7 +477,7 @@ class RS {
 	public static $rs_hooks=array();
 		
 	/**
-	 * Crer une instance de ressource aprs l'avoir ajoute a la base de donne
+	 * Crï¿½er une instance de ressource aprï¿½s l'avoir ajoutï¿½e a la base de donnï¿½e
 	 *
 	 * @param  obj_id : id de l'objet
 	 * @param  hook : identificateur
@@ -493,7 +493,7 @@ class RS {
 	}
 	
 	/**
-	 * Charge une information si elle existe, la cre sinon
+	 * Charge une information si elle existe, la crï¿½ï¿½e sinon
 	 *
 	 * @param  obj_id : id de l'objet
 	 *
@@ -515,7 +515,7 @@ class RS {
 	}
 
 	/**
-	 * Charge une information si elle existe, la cre sinon
+	 * Charge une information si elle existe, la crï¿½ï¿½e sinon
 	 *
 	 * @param  obj_id : id de l'objet
 	 *
@@ -529,7 +529,7 @@ class RS {
 	}
 
 	/**
-	 * Charge une information si elle existe, la cre sinon
+	 * Charge une information si elle existe, la crï¿½ï¿½e sinon
 	 *
 	 * @param  obj_id : id de l'objet
 	 *
@@ -559,8 +559,8 @@ class RS {
  	}
 	
 	/**
-	 * dtruit l'objet avec l'id objet dans la base de donne (ˆ l'aide de son controlleur?)
-	 * renvoie True si succs
+	 * dï¿½truit l'objet avec l'id objet dans la base de donnï¿½e (ï¿½ l'aide de son controlleur?)
+	 * renvoie True si succï¿½s
 	 *
 	 * @param  obj_id : id de l'objet
 	 * 
@@ -605,7 +605,7 @@ class RS {
 	}
 	
 	/**
-	 * Charge une information si elle existe, la cre sinon
+	 * Charge une information si elle existe, la crï¿½ï¿½e sinon
 	 *
 	 * @param  obj_id : id de l'objet
 	 *

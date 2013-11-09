@@ -31,29 +31,43 @@
  */
 Class View_core {
 	var $toeval="";
-
+	var $namespace="";
+	
+	/**
+	 * Le constructeur sert uniquement ï¿½ dï¿½finir le namespace
+	 * ie le repertoire sous template qui contient le template
+	 * si ce template n'existe pas dans ce repertoire, on va chercher dans le repertoire parent
+	 * 
+	 * @param null|string $namespace
+	 * 
+	 * 
+	 */
+	function __construct($ns="") {
+		$this->namespace=$ns;
+	}
+	
 	/*
 	 * Affiche le template
 	 */
 	function render() {
 		///BIG HACK MAMA
 		//for variable controller environment
-		$this->set_variable("controlleur", Bleetz::$context->controller);
+		//$this->set_variable("controlleur", Bleetz::$context->controller);
 		
 		eval ("?>".$this->toeval);
 	}
 
 	/**
-	 * Renvoie une chaine de caractres avec le template
+	 * Renvoie une chaine de caractï¿½res avec le template
 	 * 
 	 * @return string
 	 */
 	function renderStr() {
 		///BIG HACK MAMA
-		$this->set_variable("controlleur", Bleetz::$context->controller);
+		//$this->set_variable("controlleur", Bleetz::$context->controller);
 		
 		ob_start();
-				
+
 		eval ("?>".$this->toeval);
 		
 		$out = ob_get_contents();
@@ -65,7 +79,7 @@ Class View_core {
 	/**
 	 * Charge le templates et l'analyse
 	 * a rajouter un parametre de 'namespace' pour les variables
-	 * la variable est prŽfixŽe avec le namespace a utiliser notement dans les boucles
+	 * la variable est prï¿½fixï¿½e avec le namespace a utiliser notement dans les boucles
 	 *
 	 * @param  $style : le template 'maitre'
 	 * @param  $components : les composants du template 'maitre'
@@ -81,9 +95,107 @@ Class View_core {
 	}
 	
 	/**
+	 * Charge le templates et l'analyse
+	 * a rajouter un parametre de 'namespace' pour les variables
+	 * la variable est prï¿½fixï¿½e avec le namespace a utiliser notement dans les boucles
+	 *
+	 * @param  $style : le template 'maitre'
+	 * @param  $components : les composants du template 'maitre'
+	 *
+	 * @return  void
+	 */
+	function get_filepath($file) {
+			$filename=TPLPATH.$this->namespace."/".$file;
+			$ltime=@file_exists($filename);
+			
+			if ($ltime===false) {
+				$filename=TPLPATH.$file;
+				$ltime=@filemtime($filename);
+				if ($ltime===false) $filename=null;
+			}
+			return $filename;
+	}
+	
+	/**
+	 * Compilation des templates
+	 *
+	 * @param  $style : le template 'maitre'
+	 * @param  $components : les composants du template 'maitre'
+	 *
+	 * @return  void
+	 */
+	function parse_component ($style, $page_components) {
+		$parser =new Parser_core();
+		
+		//global $script_image_path, $template_image_path, $translate_image_path;
+		while  (list ($k,$d)=each($page_components)) {
+			$parser->compiling=$d;
+			//$tpl_filename=TPLPATH.$this->namespace."/".$d;
+			$tpl_filename=$this->get_filepath($d);
+			if ($tpl_filename===null) {
+				if (DODEBUG) {
+					ER::collect("Template file not found <b>%s</b> for action request : <b>%s.%s</b>", TPLPATH.$d, Bleetz::$context->controller,Bleetz::$context->action);
+					//what should we do????
+					echo ER::report();
+				}
+				return false;
+			}
+			//echo $tpl_filename;
+			$str = implode("", @file($tpl_filename));
+			//echo $str;
+				
+	
+			/*obsolete
+			if (TRANSLATE_IMAGE_PATH===true)
+				$str=str_replace($template_image_path ,$script_image_path,$str);
+			*/
+			$parser->parse($str);
+				
+		}
+	
+		$parser->compiling=$style;
+		$tpl_filename=$this->get_filepath($style);
+		//echo $tpl_filename;
+		if (($style!="") and ($tpl_filename!==null)) {
+			$str = implode("", @file($tpl_filename));
+		} else {
+			$str='<bleetz:content name="" \/>';
+			//echo "str",$str;
+			//echo "Template file not found <b>".TPLPATH.$d."</b> for action request : <b>".Bleetz::$context->controller.".".Bleetz::$context->action."</b>";
+			//return false;
+		}
+
+		//echo $str;
+		$parser->page=$parser->parse($str);
+		//echo $parser->page;
+		return $parser->page;
+	}
+	
+	/**
+	 * Charge le templates et l'analyse
+	 * a rajouter un parametre de 'namespace' pour les variables
+	 * la variable est prï¿½fixï¿½e avec le namespace a utiliser notement dans les boucles
+	 *
+	 * @param  $style : le template 'maitre'
+	 * @param  $components : les composants du template 'maitre'
+	 *
+	 * @return  void
+	 */
+	//should be static
+	function check_filemtime($file) {
+			$ltime=@filemtime(TPLPATH.$this->namespace."/".$file);
+			//echo TPLPATH.$this->namespace."/".$file."<br>";
+			//var_dump($ltime);
+			if ($ltime===false) {
+				$ltime=@filemtime(TPLPATH.$file);
+			}
+			return $ltime;
+	}
+	
+	/**
    * Charge le templates et l'analyse
    * a rajouter un parametre de 'namespace' pour les variables
-   * la variable est prŽfixŽe avec le namespace a utiliser notement dans les boucles
+   * la variable est prï¿½fixï¿½e avec le namespace a utiliser notement dans les boucles
    *
    * @param  $style : le template 'maitre'
    * @param  $components : les composants du template 'maitre'
@@ -92,12 +204,31 @@ Class View_core {
    */
 	function load_template($style, $components) {
 
-		$cached_name= Bleetz::$context->controller."_".Bleetz::$context->action;
+		/*
+		 * ï¿½ revoir sous cette forme...
+		 
+		 $toeval=get_cached_file();
+		 if ($toeval==null) {
+		 	$parser =new Parser_core();
+			$compiled=$parser->parse_component_2($style, $components);
+			if (! ($file = fopen($cached_filename, "w")) ) {
+				ER::collect( "Error opening file <b>%s</b> for writing", $cached_filename);
+				echo ER::report();
+				exit;
+			} else {
+				fwrite($file, $compiled, strlen($compiled));
+				fclose($file);
+			}
+			
+		 }
+		 
+		 
+		 */
+		$cached_name= $this->namespace."-".Bleetz::$context->controller."-".Bleetz::$context->action;
 
 		$cached_filename=DCHPATH.$cached_name;
 		if (FORCE_COMPILE|!file_exists($cached_filename)) {
-			$parser =new Parser_core();
-			$compiled=$parser->parse_component_2($style, $components);
+			$compiled=$this->parse_component($style, $components);
 			//echo DCHPATH.$cached_name;
 			if (! ($file = fopen($cached_filename, "w")) ) {
 				ER::collect( "Error opening file <b>%s</b> for writing", $cached_filename);
@@ -108,20 +239,21 @@ Class View_core {
 				fclose($file);
 			}
 		} else {
-			$ltime=@filemtime(TPLPATH.$style);
+			$ltime=$this->check_filemtime($style);
+			//echo $style;
 			if ($ltime===false) {
 				ER::collect( "The template file %s was cached then destroyed... Check templates.", TPLPATH.$style);
 				echo ER::report();
 				exit;
 			}
 			while (list($k,$d)=each($components)) {
-				$ttime=filemtime(TPLPATH.$d);
+				$ttime=$this->check_filemtime($d);
 				if ( $ttime>$ltime ) $ltime=$ttime;
 			};
 			$ctime=filemtime($cached_filename);
 			if($ctime<$ltime) {
-				$parser = new Parser_core();
-				$compiled=$parser->parse_component_2($style, $components);
+				//$parser = new Parser_core();
+				$compiled=$this->parse_component($style, $components);
 				if (! ($file = fopen($cached_filename, "w")) ) {
 					ER::collect( "Error opening file <b>%s</b> for writing", $cached_filename);
 					echo ER::report();
@@ -137,17 +269,19 @@ Class View_core {
 					exit;
 				} else {
 					//echo $cached_filename;
-					$compiled=@fread($file, filesize($cached_filename));
-					if ($compiled===false) {
+					$fsize=filesize($cached_filename);
+					$compiled=@fread($file, $fsize);
+					
+					if ($compiled===false||($fsize==0)) {
 						$parser = new Parser_core();
-						$compiled=$parser->parse_component_2($style, $components);
+						$compiled=$this->parse_component($style, $components);
 						if (! ($file = fopen($cached_filename, "w")) ) {
 							ER::collect( "Error opening file <b>%s</b> for writing", $cached_filename);
 							echo ER::report();
 							exit;
 						} else {
 							fwrite($file, $compiled, strlen($compiled));
-							fclose($file);
+							//fclose($file);
 						}
 					}
 					fclose($file);
@@ -160,72 +294,61 @@ Class View_core {
 	/**
 	 *  Charge une variables dans la vue...
 	 *   a rajouter un parametre de 'namespace' pour les variables
-	 *   la variable est prŽfixŽe avec le namespace a utiliser notement dans les boucles
+	 *   la variable est prï¿½fixï¿½e avec le namespace a utiliser notement dans les boucles
 	 * 
 	 * @param string $varname	: le nom de la variable
 	 * @param mixed $value		: la valeur a enregistrer
 	 * @param string $scope		: le namespce de la variable
 	 */
 	function set($varname, $value, $scope="") {
-		if (!empty($scope)) $varname=$scope."__".$varname;
-		$this->$varname=$value;
-		// a remplacer
-		//VAR::set...
+		VR::set_variable($varname, $value, $scope);
 	}
 	/**
 	 *  Charge une variables dans la vue... synonime de set
-	 *   la variable est prŽfixŽe avec le namespace a utiliser notement dans les boucles
+	 *   la variable est prï¿½fixï¿½e avec le namespace a utiliser notement dans les boucles
 	 * 
 	 * @param string $varname	: le nom de la variable
 	 * @param mixed $value		: la valeur a enregistrer
 	 * @param string $scope		: le namespece de la variable
 	 */
 	function set_variable($varname, $value, $scope="") {
-		if (!empty($scope)) $varname=$scope."__".$varname;
-		//il va falloir changer a, risque de dump...
-		//$this->$varname=$value;
-		$this->$varname=$value;
+		VR::set_variable($varname, $value, $scope);
 	}
 	
 	/**
    	 * Charge les variables dans la vue...
-   	 * la variable est prŽfixŽe avec le namespace a utiliser notement dans les boucles
+   	 * la variable est prï¿½fixï¿½e avec le namespace a utiliser notement dans les boucles
 	 * 
-	 * @param array $values : les valeurs a enregistrer
+	 * @param array $values : les paires (nom, valeur) a enregistrer
 	 * @param string $scope
 	 */
 	function set_variables($values, $scope="") {
-		if (is_array($values) or is_object($values))
-		foreach($values as $k => $val) {
-			$this->set($k, $val, $scope);
-		} 
+		VR::set_variables( $values, $scope);
 	}
 
 	/**
    	 * Charge les variables dans la vue...
-   	 * la variable est prŽfixŽe avec le namespace a utiliser notement dans les boucles
+   	 * la variable est prï¿½fixï¿½e avec le namespace a utiliser notement dans les boucles
 	 * 
 	 * @param array $values : les valeurs a enregistrer
 	 * @param string $scope
 	 */
 	function set_variables_utf8_encode($values, $scope="") {
-		if (is_array($values))
-		foreach($values as $k => $val) {
-			$this->set($k, $v, $scope);
-		//$this->$k=utf8_encode_if($val);
-		};
+		VR::set_variables_utf8_encode( $values, $scope);
 	}
 
 	/**
 	 * Charge les variables dans la vue...
-	 * la variable est prŽfixŽe avec le namespace a utiliser notement dans les boucles
+	 * la variable est prï¿½fixï¿½e avec le namespace a utiliser notement dans les boucles
 	 *
 	 * @param array $values : les valeurs a enregistrer
 	 * @param string $scope
 	 */
+	/*
 	function set_parser_param($name, $value) {
 		$this->$varname=$value;
 	}
+	*/
 	
 }
 

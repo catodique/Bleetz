@@ -41,7 +41,7 @@ class Object  {
   }  
   
 	/**
-	 * Crer une nouvel objet et l'ajoute ˆ  la base de donne
+	 * Crï¿½er une nouvel objet et l'ajoute ï¿½  la base de donnï¿½e
 	 * 
 	 * @param  type : type de l'objet
 	 * @param  contstructeur : constructeur de l'objet
@@ -78,7 +78,7 @@ class Object  {
   }  
   
   /**
-   * Charge un objet ˆ partir de la base de donne
+   * Charge un objet ï¿½ partir de la base de donnï¿½e
    *
    * @param  obj_id : id de l'objet
    * 
@@ -111,8 +111,8 @@ class Object  {
   }
    
  /**
-   * Enregistre les donnes $data dans la structure fichier
-   * et les rattache ˆ l'objet
+   * Enregistre les donnï¿½es $data dans la structure fichier
+   * et les rattache ï¿½ l'objet
    *
    * @return  static db connection
    */
@@ -133,7 +133,7 @@ class Object  {
 	 * Enregistre l'image dans un fichier et sauve le chemin
 	 *
 	 * @param  $rsc_id : id de l'objet
-	 * @param  $image : donnes ˆ sauver
+	 * @param  $image : donnï¿½es ï¿½ sauver
 	 *
 	 * @return  bool
 	 */
@@ -165,7 +165,7 @@ class Object  {
   
   
   /**
-   * Rattache un fichier ˆ un objet
+   * Rattache un fichier ï¿½ un objet
    *
    * @return  static db connection
    */
@@ -207,7 +207,7 @@ class OB {
 	 */
 
 	/**
-	 * Crer une instance d'objet aprs l'avoir ajoute a la base de donne
+	 * Crï¿½er une instance d'objet aprï¿½s l'avoir ajoutï¿½e a la base de donnï¿½e
 	 * 
 	 * @param  type : type de l'objet
 	 * @param  contstructeur : constructeur de l'objet
@@ -222,8 +222,8 @@ class OB {
 	}
 	
 	/**
-	 * dtruit l'objet avec l'id objet dans la base de donne (ˆ l'aide de son controlleur?)
-	 * renvoie True si succs
+	 * dï¿½truit l'objet avec l'id objet dans la base de donnï¿½e (ï¿½ l'aide de son controlleur?)
+	 * renvoie True si succï¿½s
 	 *
 	 * @param  obj_id : id de l'objet
 	 * 
@@ -289,7 +289,7 @@ class OB {
 	}
 	
 	/**
-	 * Cre une instance d'objet avec l'id objet et la charge (et appelle son controlleur?)
+	 * Crï¿½e une instance d'objet avec l'id objet et la charge (et appelle son controlleur?)
 	 * renvoie une instance objet si il existe et NULL sinon 
 	 *
 	 * @param  obj_id : id de l'objet
@@ -305,8 +305,8 @@ class OB {
 	}	
 	
 	/**
-	 * Cr ne instance objet avec un id objet mais ne la charge pas
-	 * et ne vrifie pas son existence
+	 * Crï¿½ï¿½ ne instance objet avec un id objet mais ne la charge pas
+	 * et ne vï¿½rifie pas son existence
 	 *
 	 * @param  obj_id : id de l'objet
 	 * 
@@ -320,7 +320,7 @@ class OB {
 	
 	/**
 	 * detruire un objet
-	 * et ne vrifie pas son existence
+	 * et ne vï¿½rifie pas son existence
 	 *
 	 * @param  obj_id : id de l'objet
 	 *
@@ -372,9 +372,9 @@ class SET {
 	public static $set_hooks=array();
 	
 	/**
-	 * Cre une instance de ressource avec son controlleur et sa nature
-	 * Une ressource est une ensemble de donnes ( fichiers ou informations)
-	 * utiles pour la gestion d'une classe d'objet gre par un controlleur
+	 * Crï¿½e une instance de ressource avec son controlleur et sa nature
+	 * Une ressource est une ensemble de donnï¿½es ( fichiers ou informations)
+	 * utiles pour la gestion d'une classe d'objet gï¿½rï¿½e par un controlleur
 	 *
 	 * @param  obj_id : id de l'objet
 	 *
@@ -393,7 +393,7 @@ class SET {
 	}
 
 	/**
-	 * Cre une instance d'objet avec l'id objet et la charge (et appelle son controlleur?)
+	 * Crï¿½e une instance d'objet avec l'id objet et la charge (et appelle son controlleur?)
 	 * renvoie une instance objet si il existe et NULL sinon
 	 *
 	 * @param  obj_id : id de l'objet
@@ -405,8 +405,8 @@ class SET {
 	}
 
 	/**
-	 * Charge un objet de type ressource ˆ partir de la base de donne
-	 * Les ressources permettent de stocker des donnes gnrales utiles pour
+	 * Charge un objet de type ressource ï¿½ partir de la base de donnï¿½e
+	 * Les ressources permettent de stocker des donnï¿½es gï¿½nï¿½rales utiles pour
 	 * le controlleur
 	 * Pour les ressources, le type, le controlleur et la nature forment une cle unique
 	 * Ce n'est pas vrai pour les autres type d'objets...
@@ -420,7 +420,7 @@ class SET {
 
 		$db=DB::connect();
 
-		//il faudrat grer les index
+		//il faudrat gï¿½rer les index
 		$q  = "SELECT * FROM app_objets ";
 		$q .= " WHERE  obj_type=".OBJTYPE_RESSOURCES_SET ;
 		$q .= " AND obj_controller='".$controller."'" ;
@@ -445,11 +445,11 @@ class SET {
 	}
 	
 	/**
-	 * Enregistre les donnes dans un fichier et sauve le chemin
+	 * Enregistre les donnï¿½es dans un fichier et sauve le chemin
 	 *
 	 * @param  $rsc_id : id de l'objet
-	 * @param  $data : donnes ˆ sauver
-	 * @param  $size : taille des donnes ˆ sauver
+	 * @param  $data : donnï¿½es ï¿½ sauver
+	 * @param  $size : taille des donnï¿½es ï¿½ sauver
 	 *
 	 * @return  bool
 	 */
@@ -473,7 +473,7 @@ class SET {
 		
 		$f=fopen($path,"w");
 		if (!fwrite($f, $data, $size)) {
-				ER::report("Le fichier ne peut pas tre crit.");
+				ER::report("Le fichier ne peut pas ï¿½tre ï¿½crit.");
 				return false;
 		}
 		
@@ -486,7 +486,7 @@ class SET {
 	 * Enregistre l'image dans un fichier et sauve le chemin
 	 *
 	 * @param  $rsc_id : id de l'objet
-	 * @param  $image : donnes ˆ sauver
+	 * @param  $image : donnï¿½es ï¿½ sauver
 	 *
 	 * @return  bool
 	 */

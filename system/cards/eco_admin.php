@@ -22,7 +22,7 @@ class eco_compiler {
 			
 			if ($edit_mode) 
 				$compiled.='<div style="'.$width.$height.$color.'display:inline-block;" onclick="openFileBox(\''.$name.'\')">';
-			$compiled.='<?php $r=RS::Load($this->obj_id, "'.$name.'"); if ($r===null) $r=RS::Load(@$this->prt_obj_id, "'.$name.'"); ?>';
+			$compiled.='<?php $r=RS::Load(VR::$vr->global->obj_id, "'.$name.'"); if ($r===null) $r=RS::Load(@VR::$vr->global->prt_obj_id, "'.$name.'"); ?>';
 			//$compiled.='<image src="<?php echo "../images/".$this->obj_controller."/o_".$this->obj_id."/".$this->obj_nature."/'.$name.'.png"; ? >" />';
 			
 			$compiled.='<image src="<?php echo "../".$r->file_path; ?>" />';
@@ -48,7 +48,7 @@ class eco_compiler {
 			$color="background-color:#990;";
 			if ($edit_mode)
 				$compiled.='<div style="'.$color.'" onclick="openTextBox(\''.$name.'\')">';
-			$compiled.='<?php $r=RS::Load($this->obj_id, "'.$name.'"); if ($r===null) $r=RS::Load(@$this->prt_obj_id, "'.$name.'");';
+			$compiled.='<?php $r=RS::Load(VR::$vr->global->obj_id, "'.$name.'"); if ($r===null) $r=RS::Load(@VR::$vr->global->prt_obj_id, "'.$name.'");';
 			$compiled.='if (!($r===null)) {  echo $r->text_data;  } else echo "text<br/>empty"; ?> ';
 			if ($edit_mode)
 				$compiled.="</div>";
@@ -74,7 +74,7 @@ class eco_compiler {
 			$color="background-color:#990;";
 			if ($edit_mode)
 				$compiled.='<div style="'.$color.'" onclick="openFieldBox(\''.$name.'\')">';
-			$compiled.='<?php if (!empty($this->'.$name.')) echo $this->'.$name.'; else echo "field<br/>empty";?> ';
+			$compiled.='<?php if (!empty(VR::$vr->global->'.$name.')) echo VR::$vr->global->'.$name.'; else echo "field<br/>empty";?> ';
 			//$compiled.='<?php echo @$this->'.$name.'; ? > ';
 			if ($edit_mode)
 				$compiled.="</div>";

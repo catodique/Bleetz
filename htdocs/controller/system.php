@@ -32,13 +32,13 @@ Class system extends Controller_core {
 	
 	function log($d) { // User=*; Group=*; Level=0;
 		US::checkLogin();
-		URL::redirect(".");
+		HDR::redirect(".");
 		//return Bleetz::$context->login($d["usr_login"], $d["password"]);
 	}
 
 	function logout($d) { // User=*; Group=*; Level=0;
 		US::logout();
-		URL::redirect(".");
+		HDR::redirect(".");
 		return true;
 	}
 	

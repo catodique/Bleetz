@@ -2,7 +2,7 @@
 /**
  * Bleetz framework
  *
- * service Session
+ * service Variables
  *
  * @author Carmelo Guarneri (Catodique@hotmail.com) (CAO)
  * @author Pascal Parole
@@ -21,7 +21,8 @@ class Variables {
 }
 
 class VR {
-	private static $var_spool=null;
+	static $vr=null;
+	static $scope=null;
 	private static $activeScope="global";
 	
 	static function scope($scope) {
@@ -29,13 +30,20 @@ class VR {
 	}
 
 	static function set($name, $val, $scope="") {
-		if (self::$var_spool === null) self::$var_spool=new Variables();
-		VR::$var_spool->$name=$val;
+		// use scope as var_spool.???
+		//VR::$$scope????
+		$scope="global";
+		if (self::$vr === null) self::$vr=new Variables();
+		if (!isset(self::$vr->$scope)) self::$vr->$scope=new Variables();
+		VR::$vr->$scope->$name=$val;
 	}
 
 	static function get($name, $scope="") {
-		if (self::$var_spool === null) return "";
-		return VR::$var_spool->$name;
+		$scope="global";
+		if (self::$vr !== null)
+		if (self::$vr->$scope !== null)
+		if (isset(VR::$vr->$scope->$name)) return VR::$vr->$scope->$name;
+		return "";
 	}
 
 	/**
@@ -46,11 +54,11 @@ class VR {
 	 * @param mixed $value		: la valeur a enregistrer
 	 * @param string $scope		: le namespece de la variable
 	 */
-	function set_variable($varname, $value, $scope="") {
+	static function set_variable($varname, $value, $scope="") {
 		if (!empty($scope)) $varname=$scope."__".$varname;
 		//il va falloir changer a, risque de dump...
 		//$this->$varname=$value;
-		$this->$varname=$value;
+		self::set($varname,$value);
 	}
 
 	/**
@@ -60,11 +68,11 @@ class VR {
 	 * @param array $values : les valeurs a enregistrer
 	 * @param string $scope
 	 */
-	function set_variables($values, $scope="") {
+	static function set_variables($values, $scope="") {
 		if (is_array($values) or is_object($values))
 			foreach($values as $k => $val) {
-			$this->set($k, $val, $scope);
-		}
+				self::set_variable($k, $val, $scope);
+			}
 	}
 
 	/**
@@ -74,12 +82,8 @@ class VR {
 	 * @param array $values : les valeurs a enregistrer
 	 * @param string $scope
 	 */
-	function set_variables_utf8_encode($values, $scope="") {
-		if (is_array($values))
-			foreach($values as $k => $val) {
-			$this->set($k, $v, $scope);
-			//$this->$k=utf8_encode_if($val);
-		};
+	static function set_variables_utf8_encode($values, $scope="") {
+		//NOOP
 	}
 }
 

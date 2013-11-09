@@ -67,7 +67,7 @@ final class Bleetz {
 	
 	// Internal caches and write status
 	//private static $enableClassCache 	= false;
-	//private static $require_cache 		= array();
+	private static $require_cache 		= array();
 	private static $save_require_cache 	= false;
 	private static $language_cache 		= array();
 	private static $save_language_cache = false;
@@ -90,19 +90,25 @@ final class Bleetz {
 		CFG::Load("Bleetz");
 		
 		//load libraries
+		//this is the real core of the system with bleetz
 		Bleetz::load_library("Controller.php");
 		Bleetz::load_library("Context.php");
 		
 		//should be a service???
+		//not always required
 		Bleetz::load_library("Parser.php");
 		Bleetz::load_library("View.php");	
 		//Error service is always required...
 		Bleetz::load_service("Error");
-		
-		//ˆ dŽfinir dans les services des auto configs...
+				
+		//ï¿½ dï¿½finir dans les services des auto configs...
 		Bleetz::load_services(CFG::$services);
+
+		//pour l'instant, par la suite on peut dï¿½finr des fonctions init pour nos trucs....
+
+		Bleetz::load_globals();
 		
-		CFG::Set("BASE_URL", $_SERVER["SCRIPT_NAME"]."/");
+		CFG::set("BASE_URL", $_SERVER["SCRIPT_NAME"]."/","Context");
 		
 		if (CLASS_CACHE===true) {
 			if (file_exists("./require_cache")) {
@@ -128,7 +134,7 @@ final class Bleetz {
 		$postdata = file_get_contents("php://input");
 		echo $postdata;
 		*/
-		// Recuperation des donnees postées
+		// Recuperation des donnees postï¿½es
 		$sys_form_vars=array();
 		if ($_GET) {
 			$sys_form_vars=array_merge($sys_form_vars, $_GET);
@@ -149,17 +155,17 @@ final class Bleetz {
 		// get the path infos
 		$context->client_path_info=@$_SERVER["PATH_INFO"];
 		
-		//que faire avec a?
+		//que faire avec ï¿½a?
 		if (!isset($sys_form_vars["redirect"])) $sys_form_vars["redirect"]=$context->client_path_info;
 		
-		//POUR l'instant... ˆ revoir
+		//POUR l'instant... ï¿½ revoir
 		//$sys_form_vars["lang"]="fr_FR";
 		//chercher la langue a appliquer dans la session
 		//a mettre dans la config???
 		//non
 		define('LC_LANG_ACTIVE', "fr_FR");
 		
-		//Bleetz::$content appellŽ a disparaitre
+		//Bleetz::$content appellï¿½ a disparaitre
 		Bleetz::$context=$context;
 		CT::$context=$context;
 		
@@ -186,6 +192,12 @@ final class Bleetz {
 		}
 	}
 
+	public static function load_globals() {
+		//peut etre n'est ce pas necessaire d'avoir une fonction///
+		//la partie cfg est ï¿½ ï¿½voluer
+		if (isset(CFG::$globals)) VR::set_variables(CFG::$globals);
+		//var_dump(VR::$vr);
+	}
 	//a creer
 	// $type : library, service, controller, card
 	//public static function load($type,$file) {
@@ -241,8 +253,7 @@ final class Bleetz {
 			}
 			CFG::Load($name);
 			return;
-		}
-		if (empty(Bleetz::$require_cache[$filename])) {
+		} else if (empty(Bleetz::$require_cache[$filename])) {
 			Bleetz::$save_require_cache=true;
 			//load file
 			if (!file_exists($filename)) { //404 not found
@@ -267,6 +278,8 @@ final class Bleetz {
 			eval ("?>".$prg_text);
 			CFG::Load($name);
 		}
+		
+		//CFG::init($name)
 	}
 
 	public static function load_controller($controller) {

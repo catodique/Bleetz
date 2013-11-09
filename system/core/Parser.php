@@ -176,8 +176,10 @@ Class Parser_core {
 			}
 			$nextid = strpos($str,$id,$ids + 1);
 			$val =substr($str, $ids+1, $nextid-$ids-1);
-			$val2=preg_replace('/{\$(\w+|\w+\[\'\w+\'\]|\w+\["\w+"\])}/','$this->\1',$val);
+			$scope="global";
+			$val2=preg_replace('/{\$(\w+|\w+\[\'\w+\'\]|\w+\["\w+"\])}/','VR::$vr->'.$scope.'->\1',$val);
 			$name = strtoupper(trim(substr($str,$current_offset,$eq-$current_offset)));
+			//echo $name, $val2;
 			//il faut trouver un moyen de conserver la valeur initiale
 			$all[$name] = $val2;
 			$current_offset=$nextid + 1;
@@ -207,49 +209,51 @@ Class Parser_core {
 		for ($j=0;$j<sizeof($match[2]);$j++) {
 			if (is_array($match[3][$j])) $modchar=$match[3][$j][0];
 			else $modchar="";
+			$scope="global";
 			switch($modchar) {
 				//pas de modificateur
 				case "":
 					$varname=$match[1][$j][0];
-					$varmod= "\$this->$varname";
+					$varmod= "VR::\$vr->$scope->$varname";
 					break;
 					//minuscule
 				case "u" :
 					$varname=$match[2][$j][0];
-					$varmod="strtoupper(\$this->$varname)";
+					$varmod="strtoupper(VR::\$vr->$scope->$varname)";
 					break;
 					//majuscule
 				case "l" :
 					$varname=$match[2][$j][0];
-					$varmod="strtolower(\$this->$varname)";
+					$varmod="strtolower(VR::\$vr->$scope->$varname)";
 					break;
 					//clean of possible php code non implemente
 				case "c" :
 					$varname=$match[2][$j][0];
-					$varmod="\$this->$varname";
+					$varmod="strip_tags(VR::\$vr->$scope->$varname)";
+					//$varmod="strip_tags(<<<TXT\nVR::\$vr->$scope->$varname\nTXT;\n)";
 					break;
 					//escape for javascript with "
 				case "S" :
 					$varname=$match[2][$j][0];
-					$varmod="str_replace(\"\\\"\",\"\\\\\\\"\",str_replace(\"\\n\", \"\\\\n\",\$this->$varname))";
+					$varmod="str_replace(\"\\\"\",\"\\\\\\\"\",str_replace(\"\\n\", \"\\\\n\",VR::\$vr->$scope->$varname))";
 					break;
 					//escape for javascript with '
 				case "s" :
 					$varname=$match[2][$j][0];
-					$varmod="str_replace(\"'\",\"\\'\",str_replace(\"\\n\", \"\\\\n\",\$this->$varname)";
+					$varmod="str_replace(\"'\",\"\\'\",str_replace(\"\\n\", \"\\\\n\",VR::\$vr->$scope->$varname)";
 					break;
 					//escape non iplemente
 				case "e" :
 					$varname=$match[2][$j][0];
-					$varmod="\$this->$varname";
+					$varmod="VR::\$vr->$scope->$varname";
 					break;
 				default:
 					//error
 					$varname=$match[2][$j][0];
-					$varmod="\$this->$varname";
+					$varmod="VR::\$vr->$scope->$varname";
 			}
 			
-			$textdata=str_replace($match[0][$j][0], '<?php if (isset($this->'.$varname.')) echo '.$varmod.'; else /*error*/; ?>', $textdata);
+			$textdata=str_replace($match[0][$j][0], '<?php if (isset(VR::$vr->'.$scope.'->'.$varname.')) echo '.$varmod.'; else /*error*/; ?>', $textdata);
 		}
 		return $textdata;
 	}
@@ -418,44 +422,6 @@ Class Parser_core {
 		}
 
 		return $this->data[0]["compiled"];
-	}
-
-	function parse_component_2 ($style, $page_components) {
-		//global $script_image_path, $template_image_path, $translate_image_path;
-		while  (list ($k,$d)=each($page_components)) {
-			$this->compiling=$d;
-			if (!file_exists(TPLPATH.$d)) {
-				if (DODEBUG) {
-					ER::collect("Template file not found <b>%s</b> for action request : <b>%s.%s</b>", TPLPATH.$d, Bleetz::$context->controller,Bleetz::$context->action);
-					//what should we do????
-					echo ER::report();
-				}
-				return false;
-			}
-			$str = implode("", @file(TPLPATH.$d));
-		
-			if (TRANSLATE_IMAGE_PATH===true)
-				$str=str_replace($template_image_path ,$script_image_path,$str);
-			$this->parse($str);
-				
-		}
-		
-		$this->compiling=$style;
-		if (($style!="") and file_exists(TPLPATH.$style)) {
-			$str = implode("", @file(TPLPATH.$style));
-		} else {
-			$str='<bleetz:content name="" \/>';
-			//echo "str",$str;
-			//echo "Template file not found <b>".TPLPATH.$d."</b> for action request : <b>".Bleetz::$context->controller.".".Bleetz::$context->action."</b>";
-			//return false;
-		}
-		//echo $str;
-		if (TRANSLATE_IMAGE_PATH===true)
-			$str=str_replace($template_image_path,$script_image_path,$str);
-		
-		//print_r($this->components);
-		$this->page=$this->parse($str);
-		return $this->page;
 	}
 
 }

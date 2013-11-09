@@ -28,7 +28,13 @@ class Database  {
 	$this->transaction_level=0;
 	try {
 	//echo "mysql:$host;dbname=d$database";
-	$this->db=new PDO("mysql:host=".DBHOST.";dbname=".DBNAME,DBUSER,DBPASS, array(PDO::MYSQL_ATTR_FOUND_ROWS => true));//PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8") );
+	$dbhost=CFG::get("DBHOST","Database");
+	$dbname=CFG::get("DBNAME","Database");
+	$dbuser=CFG::get("DBUSER","Database");
+	$dbpass=CFG::get("DBPASS","Database");
+	//$encoding=CFG::get("SE_DRIVER","Session");
+	$this->db=new PDO("mysql:host=".$dbhost.";dbname=".$dbname,$dbuser,$dbpass, array(PDO::MYSQL_ATTR_FOUND_ROWS => true,PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+	//$this->db=new PDO("mysql:host=".$dbhost.";dbname=".$dbname,$dbuser,$dbpass, array(PDO::MYSQL_ATTR_FOUND_ROWS => true));
 	return true;
 	} catch (PDOException $e) {
 	    ER::collect("Failed to get DB handle: %s", $e->getMessage() );
@@ -169,9 +175,9 @@ class DB {
 	public static $db_hooks_used=0;
 
 	/**
-	 * Connection a une base de données
-	 * Si la connection est déjà ouverte, recharge l ancienne connection
-	 * à utiliser quand on a besoin de requetes succesives...
+	 * Connection a une base de donnÃ©es
+	 * Si la connection est dÃ©jÃ  ouverte, recharge l ancienne connection
+	 * Ã  utiliser quand on a besoin de requetes succesives...
 	 *
 	 * @return  static db connection
 	 */
@@ -181,8 +187,8 @@ class DB {
 	}
 	
 	/**
-	 * Nouvelle connection a une base de donnes au cas ou on a besoin de faire des requetes imbriques
-	 * ˆ utiliser quand on a besoin de requetes imbriques...
+	 * Nouvelle connection a une base de donnï¿½es au cas ou on a besoin de faire des requetes imbriquï¿½es
+	 * ï¿½ utiliser quand on a besoin de requetes imbriquï¿½es...
 	 *
 	 * @return NULL|Database:
 	 */
@@ -198,9 +204,9 @@ class DB {
 	}
 
 	/**
-	 * Deconnection d'une base de donnes
-	 * indique que la dernire connection ouverte n'est plus utilise
-	 * et peut etre crase
+	 * Deconnection d'une base de donnï¿½es
+	 * indique que la derniï¿½re connection ouverte n'est plus utilisï¿½e
+	 * et peut etre ï¿½crasï¿½e
 	 *
 	 * @return void
 	 */
@@ -220,15 +226,15 @@ class DB {
 
 	
 	/**
-	 * Connection a une base de donnes
+	 * Connection a une base de donnï¿½es
 	 * relache toutes les connections ouvertes
-	 * et vrifie si les squences connect-release ont t faites correctement
+	 * et vï¿½rifie si les sï¿½quences connect-release ont ï¿½tï¿½ faites correctement
 	 *
 	 * @return void
 	 */
 	static function release_all() {
 		if ((self::$db_hooks_used<0)or(self::$db_hooks_used>1)) {
-			// ˆ voir, ce n'est pas forcement necessaire
+			// ï¿½ voir, ce n'est pas forcement necessaire
 			echo "warning : error ".self::$db_hooks_used." in the spawn drop sequence for action : <b>".Bleetz::$context->controller.".".Bleetz::$context->action."<b>";
 			self::$db_hooks_used=0;
 		}
@@ -247,7 +253,7 @@ class DB {
 	}
 	
 	/**
-	 * Rcupere un enregistrement
+	 * Rï¿½cupere un enregistrement
 	 * 
 	 * @param string $q : query
 	 * @return NULL  | Record array
@@ -263,7 +269,7 @@ class DB {
 	}
 		
 	/**
-	 * Rcupere des enregistrement pour la grille w2grid
+	 * Rï¿½cupere des enregistrement pour la grille w2grid
 	 * non fonctionnel encore
 	 *
 	 * @return une array avec tout les enregistrements
@@ -285,7 +291,7 @@ class DB {
 	}
 		
 	/**
-	 * Rcupere des enregistrement pour la grille w2grid
+	 * Rï¿½cupere des enregistrement pour la grille w2grid
 	 *
 	 * @return une array avec tout les enregistrements
 	 */
